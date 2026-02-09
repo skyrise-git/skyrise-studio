@@ -1,6 +1,9 @@
 "use client";
 
 import { ArrowDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import Link from 'next/link';
+import DecryptText from "./decrypt-text";
 
 type HeroSectionProps = {
   scrollY: number;
@@ -39,11 +42,19 @@ export default function HeroSection({ scrollY }: HeroSectionProps) {
         style={{ transform: `translateY(${scrollY * 0.2}px)` }}
       >
         <h1 className="text-6xl sm:text-8xl md:text-9xl font-bold tracking-widest">
-          SKYRISE
+          <DecryptText text="SKYRISE" />
         </h1>
-        <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-2xl text-balance font-body tracking-wide">
+        <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl text-balance font-body tracking-wide">
           Constructing the digital frontier. We are the architects of high-performance software, building robust, scalable, and elegant solutions that touch the sky.
         </p>
+        <div className="mt-12 flex flex-col sm:flex-row gap-4">
+          <Button asChild size="lg" className="font-code uppercase tracking-wider">
+            <Link href="#projects">Explore Dossiers</Link>
+          </Button>
+          <Button asChild size="lg" variant="outline" className="font-code uppercase tracking-wider">
+            <Link href="#contact">Initiate Contact</Link>
+          </Button>
+        </div>
       </div>
 
       <div className="absolute bottom-10 z-20 flex flex-col items-center gap-2 text-muted-foreground animate-pulse">
