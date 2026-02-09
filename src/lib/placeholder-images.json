@@ -1,3 +1,32 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "project-cygnus",
+      "title": "Project Cygnus",
+      "description": "Decentralized data storage solution leveraging blockchain for unparalleled security and uptime.",
+      "imageUrl": "https://images.unsplash.com/photo-1579548122080-c35fd6820ecb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxhYnN0cmFjdCUyMHRlY2hub2xvZ3l8ZW58MHx8fHwxNzcwNjExMjMxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "abstract technology"
+    },
+    {
+      "id": "project-orion",
+      "title": "Orion Analytics",
+      "description": "A high-performance real-time analytics platform for processing petabytes of streaming data.",
+      "imageUrl": "https://images.unsplash.com/photo-1584291527908-033f4d6542c8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxkYXRhJTIwdmlzdWFsaXphdGlvbnxlbnwwfHx8fDE3NzA2Mjc3NDF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "data visualization"
+    },
+    {
+      "id": "project-nova",
+      "title": "Nova Commerce",
+      "description": "Next-generation e-commerce framework with a focus on AR-driven user experiences.",
+      "imageUrl": "https://images.unsplash.com/photo-1720962158883-b0f2021fb51e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxmdXR1cmlzdGljJTIwaW50ZXJmYWNlfGVufDB8fHx8MTc3MDU0Mjk3N3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "futuristic interface"
+    },
+    {
+      "id": "project-helios",
+      "title": "Helios AI",
+      "description": "An open-source machine learning library optimized for distributed computing environments.",
+      "imageUrl": "https://picsum.photos/seed/104/600/600",
+      "imageHint": "neural network"
+    }
+  ]
 }
