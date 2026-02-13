@@ -87,7 +87,7 @@ export default function TechStack() {
                   <img
                     src={tech.src}
                     alt={tech.name}
-                    className="w-10 h-10 md:w-12 md:h-12 object-contain grayscale group-hover/item:grayscale-0 transition-all duration-500 brightness-75 group-hover/item:brightness-110 scale-90 group-hover/item:scale-110 z-10"
+                    className="w-10 h-10 md:w-12 md:h-12 object-contain transition-all duration-500 group-hover/item:brightness-110 scale-90 group-hover/item:scale-110 z-10"
                   />
                   
                   {/* Index overlay */}

@@ -27,7 +27,7 @@ export default function ProjectCard({ project, className, height = 'h-[400px]' }
         alt={project.title}
         fill
         sizes="(max-width: 768px) 100vw, 50vw"
-        className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105 opacity-10 group-hover:opacity-20"
+        className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105 opacity-40 group-hover:opacity-70"
         data-ai-hint={project.imageHint}
       />
       
