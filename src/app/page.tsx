@@ -50,7 +50,7 @@ export default function Home() {
             </div>
             <div className="relative w-full max-w-5xl mx-auto rounded-3xl border border-white/5 bg-secondary/5 backdrop-blur-sm p-4 md:p-8">
               <WorldMap
-                lineColor="#8b0b25"
+                lineColor="#ffffff"
                 dots={[
                   {
                     start: { lat: 34.0522, lng: -118.2437, label: "Los Angeles" }, // Los Angeles, CA
