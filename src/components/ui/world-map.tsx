@@ -97,18 +97,27 @@ export default function WorldMap({
                 strokeWidth="20"
               />
               
+              <path
+                d={createCurvedPath(startPoint, endPoint)}
+                fill="none"
+                stroke="url(#path-gradient)"
+                strokeWidth="1"
+                className="opacity-20"
+              />
               <motion.path
                 d={createCurvedPath(startPoint, endPoint)}
                 fill="none"
                 stroke="url(#path-gradient)"
                 strokeWidth={isHovered ? "2.5" : "1.2"}
                 filter={isHovered ? "url(#glow)" : "none"}
-                initial={{ pathLength: 0 }}
-                animate={{ pathLength: 1 }}
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{ pathLength: [0, 1], opacity: [0, 1, 0] }}
                 transition={{
-                  duration: 1.5,
-                  delay: 0.2 * i,
+                  duration: 2,
+                  delay: 0.5 * i,
                   ease: "easeOut",
+                  repeat: Infinity,
+                  repeatDelay: 1
                 }}
               />
 

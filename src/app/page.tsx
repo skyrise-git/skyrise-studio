@@ -45,7 +45,7 @@ export default function Home() {
             <div className="text-center mb-16">
               <h2 className="text-5xl md:text-7xl font-logo uppercase">Global <span className="text-theme-2 italic">Presence</span></h2>
               <p className="text-muted-foreground font-body mt-2 max-w-2xl mx-auto">
-                From the USA and Canada to Europe and Africa, we deliver high-performance engineering solutions worldwide.
+                From the USA and Canada to Europe, Africa, and Asia, we deliver high-performance engineering solutions worldwide.
               </p>
             </div>
             <div className="relative w-full max-w-5xl mx-auto rounded-3xl border border-white/5 bg-secondary/5 backdrop-blur-sm p-4 md:p-8">
@@ -53,28 +53,32 @@ export default function Home() {
                 lineColor="#8b0b25"
                 dots={[
                   {
-                    start: { lat: 34.0522, lng: -118.2437, label: "Los Angeles" },
-                    end: { lat: 40.7128, lng: -74.006, label: "New York" },
+                    start: { lat: 34.0522, lng: -118.2437, label: "Los Angeles" }, // Los Angeles, CA
+                    end: { lat: 40.7128, lng: -74.0060, label: "New York" }, // New York, NY
                   },
                   {
-                    start: { lat: 40.7128, lng: -74.006, label: "New York" },
-                    end: { lat: 43.6532, lng: -79.3832, label: "Toronto" },
+                    start: { lat: 40.7128, lng: -74.0060, label: "New York" },
+                    end: { lat: 43.6532, lng: -79.3832, label: "Toronto" }, // Toronto, Canada
                   },
                   {
                     start: { lat: 43.6532, lng: -79.3832, label: "Toronto" },
-                    end: { lat: 51.5074, lng: -0.1278, label: "London" },
+                    end: { lat: 51.5074, lng: -0.1278, label: "London" }, // London, UK
                   },
                   {
                     start: { lat: 51.5074, lng: -0.1278, label: "London" },
-                    end: { lat: 48.8566, lng: 2.3522, label: "Paris" },
+                    end: { lat: 48.8566, lng: 2.3522, label: "Paris" }, // Paris, France
                   },
                   {
                     start: { lat: 48.8566, lng: 2.3522, label: "Paris" },
-                    end: { lat: -26.2041, lng: 28.0473, label: "Johannesburg" },
+                    end: { lat: -26.2041, lng: 28.0473, label: "Johannesburg" }, // Johannesburg, SA
                   },
                   {
                     start: { lat: -26.2041, lng: 28.0473, label: "Johannesburg" },
-                    end: { lat: -17.8216, lng: 31.0492, label: "Harare" },
+                    end: { lat: -17.8216, lng: 31.0492, label: "Harare" }, // Harare, Zimbabwe
+                  },
+                  {
+                    start: { lat: -17.8216, lng: 31.0492, label: "Harare" },
+                    end: { lat: 28.6139, lng: 77.2090, label: "New Delhi" }, // New Delhi, India
                   },
                 ]}
               />
