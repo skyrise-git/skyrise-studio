@@ -22,6 +22,7 @@ export default function Header() {
 
   const navLinks = [
     { href: '#skills', label: 'Skills' },
+    { href: '#global', label: 'Global' },
     { href: '#projects', label: 'Projects' },
   ];
 

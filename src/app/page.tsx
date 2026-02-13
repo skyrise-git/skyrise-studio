@@ -6,6 +6,7 @@ import HeroSection from '@/components/hero-section';
 import TechStack from '@/components/tech-stack';
 import FeaturedWork from '@/components/featured-work';
 import Footer from '@/components/footer';
+import WorldMap from "@/components/ui/world-map";
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
@@ -39,6 +40,51 @@ export default function Home() {
           <section id="skills">
             <TechStack />
           </section>
+
+          <section id="global" className="container mx-auto px-4">
+            <div className="text-center mb-16">
+              <h2 className="text-5xl md:text-7xl font-logo uppercase">Global <span className="text-theme-2 italic">Presence</span></h2>
+              <p className="text-muted-foreground font-body mt-2 max-w-2xl mx-auto">
+                Our network spans continents, delivering high-performance engineering solutions wherever they are needed most.
+              </p>
+            </div>
+            <div className="relative w-full max-w-5xl mx-auto rounded-3xl border border-white/5 bg-secondary/5 backdrop-blur-sm p-4 md:p-8">
+              <WorldMap
+                lineColor="#8b0b25"
+                dots={[
+                  {
+                    start: { lat: 64.2008, lng: -149.4937, label: "Alaska" },
+                    end: { lat: 34.0522, lng: -118.2437, label: "Los Angeles" },
+                  },
+                  {
+                    start: { lat: 34.0522, lng: -118.2437, label: "Los Angeles" },
+                    end: { lat: -33.8688, lng: 151.2093, label: "Sydney" },
+                  },
+                  {
+                    start: { lat: -33.8688, lng: 151.2093, label: "Sydney" },
+                    end: { lat: 1.3521, lng: 103.8198, label: "Singapore" },
+                  },
+                  {
+                    start: { lat: 1.3521, lng: 103.8198, label: "Singapore" },
+                    end: { lat: 19.076, lng: 72.8777, label: "Mumbai" },
+                  },
+                  {
+                    start: { lat: 19.076, lng: 72.8777, label: "Mumbai" },
+                    end: { lat: 48.8566, lng: 2.3522, label: "Paris" },
+                  },
+                  {
+                    start: { lat: 48.8566, lng: 2.3522, label: "Paris" },
+                    end: { lat: 51.5074, lng: -0.1278, label: "London" },
+                  },
+                  {
+                    start: { lat: 51.5074, lng: -0.1278, label: "London" },
+                    end: { lat: 40.7128, lng: -74.006, label: "New York" },
+                  },
+                ]}
+              />
+            </div>
+          </section>
+
           <section id="projects">
             <FeaturedWork />
           </section>
