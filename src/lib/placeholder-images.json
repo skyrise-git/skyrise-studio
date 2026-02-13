@@ -4,13 +4,39 @@
       "id": "project-erp",
       "title": "Nexus ERP System",
       "description": "A comprehensive desktop and web-based ERP solution streamlined for high-volume enterprise operations.",
-      "imageUrl": "https://images.unsplash.com/photo-1579548122080-c35fd6820ecb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxhYnN0cmFjdCUyMHRlY2hub2xvZ3l8ZW58MHx8fHwxNzcwNjExMjMxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "longDescription": "Nexus ERP is a robust enterprise resource planning system designed to unify complex business processes. From supply chain management to financial forecasting, it provides real-time insights and control. Built with scalability in mind, it handles millions of transactions daily with sub-second latency, ensuring your business never misses a beat.",
+      "technologies": ["Java", "Spring Boot", "React", "PostgreSQL", "Redis", "Docker"],
+      "advantages": [
+        "Real-time inventory tracking across multiple warehouses",
+        "Automated financial reporting and compliance checks",
+        "Reduced operational costs by 30% through workflow automation"
+      ],
+      "features": [
+        "Advanced Analytics Dashboard",
+        "Multi-currency & Multi-language Support",
+        "Role-based Access Control (RBAC)",
+        "Integrated CRM Module"
+      ],
+      "imageUrl": "/projects/nexus-erp.png",
       "imageHint": "enterprise software"
     },
     {
       "id": "project-fintech",
       "title": "SwiftPay Mobile",
       "description": "Secure iOS and Android application for real-time global payments and asset management.",
+      "longDescription": "SwiftPay Mobile revolutionizes cross-border payments with blockchain-backed security and instant settlement. Designed for the modern user, it offers a seamless interface for managing digital assets, traditional currency, and peer-to-peer transfers. Security is paramount, with biometric authentication and end-to-end encryption protecting every transaction.",
+      "technologies": ["React Native", "Node.js", "Express", "MongoDB", "Blockchain", "AWS"],
+      "advantages": [
+        "Instant cross-border settlements with low fees",
+        "Bank-grade security compliant with global standards",
+        "Intuitive UX driving high user retention"
+      ],
+      "features": [
+        "Biometric Authentication",
+        "QR Code Payments",
+        "Real-time Currency Conversion",
+        "Spending Analytics"
+      ],
       "imageUrl": "https://images.unsplash.com/photo-1584291527908-033f4d6542c8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxkYXRhJTIwdmlzdWFsaXphdGlvbnxlbnwwfHx8fDE3NzA2Mjc3NDF8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "mobile banking interface"
     },
@@ -18,13 +44,39 @@
       "id": "project-ecommerce",
       "title": "Nova Commerce",
       "description": "Scalable Next.js e-commerce platform supporting millions of concurrent users worldwide.",
-      "imageUrl": "https://images.unsplash.com/photo-1720962158883-b0f2021fb51e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxmdXR1cmlzdGljJTIwaW50ZXJmYWNlfGVufDB8fHx8MTc3MDU0Mjk3N3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "longDescription": "Nova Commerce is a headless e-commerce platform built for speed and flexibility. Leveraging server-side rendering and edge computing, it delivers lightning-fast page loads tailored to each user. Its modular architecture allows brands to customize every aspect of the shopping journey without compromising on performance.",
+      "technologies": ["Next.js", "TypeScript", "Tailwind CSS", "Stripe", "Sanity CMS", "Vercel"],
+      "advantages": [
+        "99.99% uptime during peak traffic events",
+        "Seamless integration with third-party marketing tools",
+        "SEO-optimized architecture for higher search rankings"
+      ],
+      "features": [
+        "AI-powered Product Recommendations",
+        "One-click Checkout",
+        "Omnichannel Inventory Sync",
+        "Dynamic Pricing Engine"
+      ],
+      "imageUrl": "/projects/luxe-fashion.png",
       "imageHint": "modern ecommerce"
     },
     {
       "id": "project-backend",
       "title": "CoreAPI Backend",
       "description": "Robust Go-based backend API handling real-time data from over 1 million connected IoT devices.",
+      "longDescription": "CoreAPI is the backbone of a massive IoT ecosystem. Engineered in Go for raw performance, it processes telemetry streams from millions of sensors in real-time. With a microservices architecture orchestrated by Kubernetes, it scales elastically to meet fluctuating demands, ensuring data integrity and availability at all times.",
+      "technologies": ["Go", "gRPC", "Kafka", "Kubernetes", "Cassandra", "Prometheus"],
+      "advantages": [
+        "Microsecond latency for critical data streams",
+        "Horizontally scalable to support infinite device growth",
+        "Fault-tolerant design with self-healing capabilities"
+      ],
+      "features": [
+        "Real-time Stream Processing",
+        "Device Registry & Management",
+        "Anomaly Detection Algorithms",
+        "Secure OTA Updates"
+      ],
       "imageUrl": "https://picsum.photos/seed/104/600/600",
       "imageHint": "server architecture"
     }

@@ -110,14 +110,18 @@ export default function WorldMap({
                 stroke="url(#path-gradient)"
                 strokeWidth={isHovered ? "2.5" : "1.2"}
                 filter={isHovered ? "url(#glow)" : "none"}
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={{ pathLength: [0, 1], opacity: [0, 1, 0] }}
+                initial={{ pathLength: 0, pathOffset: 0 }}
+                animate={{ 
+                  pathLength: [0, 1, 1], 
+                  pathOffset: [0, 0, 1],
+                  opacity: [0, 1, 0]
+                }}
                 transition={{
-                  duration: 2,
-                  delay: 0.5 * i,
-                  ease: "easeOut",
+                  duration: 2.5,
+                  delay: 0.4 * i,
+                  ease: "easeInOut",
                   repeat: Infinity,
-                  repeatDelay: 1
+                  repeatDelay: 0.5,
                 }}
               />
 

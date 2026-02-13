@@ -10,10 +10,14 @@ type ProjectCardProps = {
   height?: string;
 };
 
-export default function ProjectCard({ project, className, height = 'h-[400px]' }: ProjectCardProps) {
+export default function ProjectCard({ project, className, height = 'h-[400px]', onClick }: ProjectCardProps & { onClick?: () => void }) {
+  const Component = onClick ? 'div' : Link;
+  const props = onClick ? { onClick, role: 'button', tabIndex: 0 } : { href: '#' };
+
   return (
-    <Link href="#" className={cn(
-        "group relative block overflow-hidden rounded-lg border border-white/10 p-6 transition-all duration-300",
+    // @ts-ignore
+    <Component {...props} className={cn(
+        "group relative block overflow-hidden rounded-lg border border-white/10 p-6 transition-all duration-300 cursor-pointer",
         "bg-secondary/5 backdrop-blur-sm hover:border-primary/30",
         height,
         className
@@ -44,6 +48,6 @@ export default function ProjectCard({ project, className, height = 'h-[400px]' }
           </span>
         </div>
       </div>
-    </Link>
+    </Component>
   );
 }
