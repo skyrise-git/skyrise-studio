@@ -7,8 +7,8 @@ export default function FeaturedWork() {
   return (
     <section className="container mx-auto animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
       <div className="text-center mb-16">
-        <h2 className="text-5xl md:text-7xl font-logo uppercase">The <span className="text-theme-2 italic">Vault</span></h2>
-        <p className="text-muted-foreground font-code mt-2">A selection of our featured dossiers.</p>
+        <h2 className="text-5xl md:text-7xl font-logo uppercase">Featured <span className="text-theme-2 italic">Solutions</span></h2>
+        <p className="text-muted-foreground font-code mt-2">Delivering scalable web and mobile applications for our global partners.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-4">

@@ -45,7 +45,7 @@ export default function HeroSection({ scrollY }: HeroSectionProps) {
           <DecryptText text="SKYRISE" />
         </h1>
         <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl text-balance font-body tracking-wide">
-          Constructing the digital frontier. We are the architects of high-performance software, building robust, scalable, and elegant solutions that touch the sky.
+          We are a premier Software Dev Team providing scalable software solutions. Leveraging Next.js, Node, React, Python, Rust, Go, and Flutter to build high-performance web, mobile, and desktop applications with robust backend APIs.
         </p>
         <div className="mt-12 flex flex-col sm:flex-row gap-4">
           <Button asChild size="lg" className="font-code uppercase tracking-wider">

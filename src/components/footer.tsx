@@ -26,6 +26,19 @@ export default function Footer() {
             </Button>
           </form>
         </div>
+        
+        <div className="mb-12 border-t border-white/5 pt-8 text-center md:text-left">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm text-muted-foreground/60 font-code uppercase tracking-wider">
+              <div>
+                <span className="text-primary/60 block mb-2">Global Delivery</span>
+                USA • Canada • Europe • South Africa • Zimbabwe
+              </div>
+              <div className="md:text-right">
+                 <span className="text-primary/60 block mb-2">Core Services</span>
+                 Custom Software • Mobile Apps • Web Design • Cloud Solutions
+              </div>
+            </div>
+        </div>
 
         <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
           <div className="font-logo text-lg tracking-widest text-primary">
