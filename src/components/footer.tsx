@@ -11,7 +11,7 @@ export default function Footer() {
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-16">
           <div>
-            <h2 className="text-5xl md:text-7xl mb-4"><DecryptText text="Get In Touch" /></h2>
+            <h2 className="text-5xl md:text-7xl mb-4 font-logo"><DecryptText text="Get In Touch" /></h2>
             <p className="text-muted-foreground font-body max-w-md">
               Have a project in mind or just want to say hello? We'd love to hear from you.
               Fill out the form and we'll get back to you as soon as possible.
@@ -28,7 +28,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
-          <div className="font-headline text-lg tracking-widest text-primary-foreground">
+          <div className="font-logo text-lg tracking-widest text-primary">
             SKYRISE
           </div>
           <p className="text-sm text-muted-foreground font-code">

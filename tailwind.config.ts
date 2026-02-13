@@ -17,6 +17,7 @@ export default {
     },
     extend: {
       fontFamily: {
+        logo: ['Bank Gothic Medium', 'sans-serif'],
         headline: ['Teko', 'sans-serif'],
         body: ['Space Grotesk', 'sans-serif'],
         code: ['JetBrains Mono', 'monospace'],
@@ -29,6 +30,13 @@ export default {
       colors: {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
+        theme: {
+          1: 'hsl(var(--theme-1))',
+          2: 'hsl(var(--theme-2))',
+          3: 'hsl(var(--theme-3))',
+          4: 'hsl(var(--theme-4))',
+          5: 'hsl(var(--theme-5))',
+        },
         card: {
           DEFAULT: 'hsl(var(--card))',
           foreground: 'hsl(var(--card-foreground))',

@@ -45,7 +45,7 @@ export default function Header() {
     >
       <div className="container mx-auto flex items-center justify-between">
         <Link href="/" className="group inline-block focus:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm">
-          <h1 className="text-2xl font-bold font-headline tracking-widest text-primary-foreground transition-colors group-hover:text-primary">
+          <h1 className="text-2xl font-bold font-logo tracking-widest text-primary transition-colors group-hover:text-theme-4">
             SKYRISE
           </h1>
         </Link>
@@ -71,7 +71,7 @@ export default function Header() {
             <SheetContent side="right" className="bg-background/90 backdrop-blur-lg border-l-white/10 w-[250px] sm:w-[300px]">
               <div className="flex flex-col h-full p-6 pt-16">
                  <Link href="/" onClick={() => setOpen(false)} className="group mb-12 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm">
-                    <h1 className="text-3xl font-bold font-headline tracking-widest text-primary-foreground">
+                    <h1 className="text-3xl font-bold font-logo tracking-widest text-primary">
                         SKYRISE
                     </h1>
                 </Link>

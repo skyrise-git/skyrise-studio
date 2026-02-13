@@ -8,9 +8,10 @@ type DecryptTextProps = {
   text: string;
   className?: string;
   as?: React.ElementType;
+  animateOnMount?: boolean;
 };
 
-const DecryptText: React.FC<DecryptTextProps> = ({ text, className, as: Tag = 'span' }) => {
+const DecryptText: React.FC<DecryptTextProps> = ({ text, className, as: Tag = 'span', animateOnMount = false }) => {
   const [displayText, setDisplayText] = useState(text);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const isDecrypting = useRef(false);
@@ -52,6 +53,12 @@ const DecryptText: React.FC<DecryptTextProps> = ({ text, className, as: Tag = 's
     if (intervalRef.current) clearInterval(intervalRef.current);
     setDisplayText(text);
   }, [text]);
+
+  useEffect(() => {
+    if (animateOnMount) {
+      scramble();
+    }
+  }, [animateOnMount, scramble]);
 
   useEffect(() => {
     return () => {

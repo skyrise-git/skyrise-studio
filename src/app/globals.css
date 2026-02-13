@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 
+ * FONT REFERENCE: Bank Gothic Medium
+ * To use this font, please provide the font files in public/fonts/ and uncomment the following:
+ *
+ * @font-face {
+ *   font-family: 'Bank Gothic Medium';
+ *   src: url('/fonts/bank-gothic-medium.woff2') format('woff2');
+ *   font-weight: 500;
+ *   font-style: normal;
+ * }
+ */
+
 @layer base {
   :root {
     --background: 0 0% 2%; /* #050505 */
@@ -10,20 +22,29 @@
     --card-foreground: 0 0% 88%;
     --popover: 0 0% 2%;
     --popover-foreground: 0 0% 88%;
-    --primary: 355 100% 25%; /* #7f000d */
+    /* Main Theme Primary: #8b0b25 */
+    --primary: 348 86% 29%; 
     --primary-foreground: 0 0% 98%;
     --secondary: 0 0% 29%; /* #4a4a4a */
     --secondary-foreground: 0 0% 88%;
     --muted: 0 0% 15%;
     --muted-foreground: 0 0% 55%;
-    --accent: 355 80% 45%;
+    /* Accent derived from #8c0646 */
+    --accent: 331 92% 29%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 15%;
     --input: 0 0% 15%;
-    --ring: 355 80% 45%;
+    --ring: 348 86% 29%;
     --radius: 0.5rem;
+
+    /* Theme Palette */
+    --theme-1: 338 86% 31%; /* #930b3c */
+    --theme-2: 348 86% 29%; /* #8b0b25 */
+    --theme-3: 342 69% 28%; /* #791634 */
+    --theme-4: 331 92% 29%; /* #8c0646 */
+    --theme-5: 342 86% 30%; /* #8d0b2f */
   }
 }
 
