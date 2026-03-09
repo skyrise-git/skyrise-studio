@@ -1,11 +1,52 @@
+"use client";
+
 import { Github, Twitter, Linkedin, Send } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import DecryptText from './decrypt-text';
+import { useState } from 'react';
+import { ref, push } from 'firebase/database';
+import { db } from '@/lib/firebase';
 
 export default function Footer() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!name || !email || !message) return;
+    
+    setLoading(true);
+    setErrorMsg(null);
+
+    try {
+      await push(ref(db, 'messages'), {
+        name,
+        email,
+        message,
+        createdAt: new Date().toISOString()
+      });
+
+      // Show success
+      setSuccess(true);
+      setName('');
+      setEmail('');
+      setMessage('');
+      setTimeout(() => setSuccess(false), 5000);
+    } catch (error: any) {
+      console.error('Error sending message:', error);
+      setErrorMsg(error.message || 'Failed to send message. Check Database Rules.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <footer id="contact" className="w-full pt-24 pb-8 border-t border-white/5">
       <div className="container mx-auto">
@@ -17,12 +58,37 @@ export default function Footer() {
               Fill out the form and we'll get back to you as soon as possible.
             </p>
           </div>
-          <form className="space-y-6">
-            <Input type="text" placeholder="Name" className="bg-secondary/10 border-white/10" />
-            <Input type="email" placeholder="Email" className="bg-secondary/10 border-white/10" />
-            <Textarea placeholder="Your Message" className="bg-secondary/10 border-white/10 min-h-[120px]" />
-            <Button type="submit" className="w-full font-code uppercase tracking-wider">
-              Send Message <Send />
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            <Input 
+              type="text" 
+              placeholder="Name" 
+              required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="bg-secondary/10 border-white/10" 
+            />
+            <Input 
+              type="email" 
+              placeholder="Email" 
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="bg-secondary/10 border-white/10" 
+            />
+            <Textarea 
+              placeholder="Your Message" 
+              required
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              className="bg-secondary/10 border-white/10 min-h-[120px]" 
+            />
+            {errorMsg && (
+              <div className="text-red-500 text-sm mt-2">{errorMsg}</div>
+            )}
+            <Button type="submit" disabled={loading} className="w-full font-code uppercase tracking-wider">
+              {loading ? 'Sending...' : success ? 'Message Sent!' : (
+                <>Send Message <Send className="ml-2" /></>
+              )}
             </Button>
           </form>
         </div>

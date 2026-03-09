@@ -1,13 +1,41 @@
+"use client";
+
 import ProjectCard from './project-card';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import type { ImagePlaceholder } from '@/lib/placeholder-images';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ProjectDialog from './project-dialog';
+import { ref, get, query, orderByChild } from 'firebase/database';
+import { db } from '@/lib/firebase';
 
 export default function FeaturedWork() {
-  const projects = PlaceHolderImages;
+  const [projects, setProjects] = useState<ImagePlaceholder[]>(PlaceHolderImages);
   const [selectedProject, setSelectedProject] = useState<ImagePlaceholder | null>(null);
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const projectsRef = query(ref(db, 'projects'), orderByChild('createdAt'));
+        const snapshot = await get(projectsRef);
+        const fetchedProjects: ImagePlaceholder[] = [];
+        if (snapshot.exists()) {
+          snapshot.forEach((childSnapshot) => {
+            fetchedProjects.push({ id: childSnapshot.key, ...childSnapshot.val() } as ImagePlaceholder);
+          });
+        }
+
+        if (fetchedProjects.length > 0) {
+          // Realtime db orderBy returns ascending, so reverse to get newest first
+          setProjects(fetchedProjects.reverse());
+        }
+      } catch (error) {
+        console.error("Error fetching projects from Firebase Database:", error);
+      }
+    };
+
+    fetchProjects();
+  }, []);
 
   const handleProjectClick = (project: ImagePlaceholder) => {
     setSelectedProject(project);

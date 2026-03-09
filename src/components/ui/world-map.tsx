@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import DottedMap from "dotted-map";
 import { useTheme } from "next-themes";
@@ -21,15 +21,28 @@ export default function WorldMap({
   const svgRef = useRef<SVGSVGElement>(null);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const { theme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
-  const map = new DottedMap({ height: 100, grid: "diagonal" });
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  const svgMap = map.getSVG({
-    radius: 0.22,
-    color: theme === "dark" ? "rgba(255, 255, 255, 0.3)" : "rgba(0, 0, 0, 0.3)",
-    shape: "circle",
-    backgroundColor: "transparent",
-  });
+  const svgMap = useMemo(() => {
+    const map = new DottedMap({ height: 100, grid: "diagonal" });
+    const mapColor = (() => {
+      // Default to white for SSR to match initial client hydration
+      if (!mounted) return "rgba(255, 255, 255, 0.3)";
+      if (theme === "dark") return "rgba(255, 255, 255, 0.3)";
+      return "rgba(0, 0, 0, 0.3)";
+    })();
+
+    return map.getSVG({
+      radius: 0.22,
+      color: mapColor,
+      shape: "circle",
+      backgroundColor: "transparent",
+    });
+  }, [theme, mounted]);
 
   const projectPoint = (lat: number, lng: number) => {
     const x = (lng + 180) * (800 / 360);
