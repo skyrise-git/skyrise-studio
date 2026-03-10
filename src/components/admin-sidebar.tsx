@@ -22,7 +22,7 @@ import {
 
 const adminMenu = [
   { title: "Dashboard / Messages", url: "/admin", icon: MessageSquare },
-  { title: "Add Project", url: "/admin/projects/new", icon: PlusSquare },
+  { title: "Manage Projects", url: "/admin/projects", icon: LayoutDashboard },
 ];
 
 const contentMenu = [
@@ -51,7 +51,7 @@ export function AdminSidebar() {
       <SidebarHeader className="p-4 border-b border-white/5">
         <div className="flex items-center gap-3">
           <div className="relative w-10 h-10 rounded-xl bg-primary/20 p-1.5 flex items-center justify-center border border-primary/20 shadow-lg shadow-primary/5">
-            <img src="/admin-logo.png" alt="Skyrise Logo" className="w-full h-full object-contain" />
+            <LayoutDashboard className="w-6 h-6 text-primary" />
           </div>
           <div className="flex flex-col">
             <span className="font-logo font-bold uppercase text-lg text-primary tracking-widest leading-none">Skyrise</span>

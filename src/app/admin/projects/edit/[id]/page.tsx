@@ -1,17 +1,23 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { db } from '@/lib/firebase';
-import { ref, push } from 'firebase/database';
+import { ref, get, update } from 'firebase/database';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { PlusSquare, SendHorizontal } from 'lucide-react';
+import { PencilLine, SendHorizontal, ArrowLeft, Loader2 } from 'lucide-react';
+import Link from 'next/link';
+import { useParams, useRouter } from 'next/navigation';
 
-export default function AddProjectPage() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+export default function EditProjectPage() {
+  const { id } = useParams();
+  const router = useRouter();
   const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  
   const [projectForm, setProjectForm] = useState({
     title: '',
     description: '',
@@ -23,10 +29,53 @@ export default function AddProjectPage() {
     imageHint: '',
   });
 
+  useEffect(() => {
+    if (!id) return;
+
+    const fetchProject = async () => {
+      try {
+        const projectRef = ref(db, `projects/${id}`);
+        const snapshot = await get(projectRef);
+        if (snapshot.exists()) {
+          const data = snapshot.val();
+          setProjectForm({
+            title: data.title || '',
+            description: data.description || '',
+            longDescription: data.longDescription || '',
+            technologies: data.technologies ? data.technologies.join(', ') : '',
+            advantages: data.advantages ? data.advantages.join(', ') : '',
+            features: data.features ? data.features.join(', ') : '',
+            imageUrl: data.imageUrl || '',
+            imageHint: data.imageHint || '',
+          });
+        } else {
+          toast({
+            title: "Error",
+            description: "Project not found.",
+            variant: "destructive",
+          });
+          router.push('/admin/projects');
+        }
+      } catch (error) {
+        console.error("Error fetching project:", error);
+        toast({
+          title: "Error",
+          description: "Failed to load project data.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProject();
+  }, [id, router, toast]);
+
   const handleProjectSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
+      // Validation (same as new project)
       const isValidImageUrl = projectForm.imageUrl && (
         projectForm.imageUrl.startsWith('/') || 
         projectForm.imageUrl.startsWith('http://') || 
@@ -47,7 +96,7 @@ export default function AddProjectPage() {
       const advArray = projectForm.advantages.split(',').map(a => a.trim()).filter(Boolean);
       const featArray = projectForm.features.split(',').map(f => f.trim()).filter(Boolean);
 
-      await push(ref(db, 'projects'), {
+      await update(ref(db, `projects/${id}`), {
         title: projectForm.title,
         description: projectForm.description,
         longDescription: projectForm.longDescription,
@@ -56,28 +105,20 @@ export default function AddProjectPage() {
         features: featArray,
         imageUrl: projectForm.imageUrl,
         imageHint: projectForm.imageHint,
-        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
       });
+
       toast({
-        title: "Project Added",
-        description: "Your new work has been successfully published.",
+        title: "Project Updated",
+        description: "The project has been successfully updated.",
       });
       
-      setProjectForm({
-        title: '',
-        description: '',
-        longDescription: '',
-        technologies: '',
-        advantages: '',
-        features: '',
-        imageUrl: '',
-        imageHint: '',
-      });
+      router.push('/admin/projects');
     } catch (err: any) {
-      console.error("Error adding project:", err);
+      console.error("Error updating project:", err);
       toast({
-        title: "Error Creating Project",
-        description: "Failed to publish project. Check console for details.",
+        title: "Error Updating Project",
+        description: "Failed to save changes. Check console for details.",
         variant: "destructive",
       });
     } finally {
@@ -89,16 +130,31 @@ export default function AddProjectPage() {
     setProjectForm(prev => ({ ...prev, [field]: value }));
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex h-[400px] items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-secondary/5 rounded-2xl border border-white/5 p-6 backdrop-blur-sm shadow-xl">
-        <div className="flex items-center gap-3">
-          <div className="p-3 bg-primary/20 text-primary rounded-xl border border-primary/20">
-            <PlusSquare className="w-6 h-6" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-logo uppercase">Create New Project</h1>
-            <p className="text-muted-foreground font-code text-sm">Publish new works to your portfolio</p>
+        <div className="flex items-center gap-4">
+          <Link href="/admin/projects">
+            <Button variant="ghost" size="icon" className="rounded-xl hover:bg-white/5">
+               <ArrowLeft className="w-5 h-5" />
+            </Button>
+          </Link>
+          <div className="flex items-center gap-3">
+            <div className="p-3 bg-primary/20 text-primary rounded-xl border border-primary/20">
+              <PencilLine className="w-6 h-6" />
+            </div>
+            <div>
+              <h1 className="text-2xl font-logo uppercase">Edit Project</h1>
+              <p className="text-muted-foreground font-code text-sm">Update the information for this showcase item</p>
+            </div>
           </div>
         </div>
       </div>
@@ -195,7 +251,12 @@ export default function AddProjectPage() {
             </div>
           </div>
 
-          <div className="border-t border-white/5 pt-8 flex justify-end">
+          <div className="border-t border-white/5 pt-8 flex justify-end gap-3">
+            <Link href="/admin/projects">
+              <Button type="button" variant="outline" className="border-white/10 rounded-xl px-10 h-14 uppercase tracking-widest font-logo font-bold">
+                Cancel
+              </Button>
+            </Link>
             <Button 
               type="submit" 
               disabled={isSubmitting} 
@@ -203,10 +264,10 @@ export default function AddProjectPage() {
             >
               <span className="relative z-10 flex items-center gap-3">
                 {isSubmitting ? (
-                  <>Publishing Project...</>
+                  <>Saving Changes...</>
                 ) : (
                   <>
-                    Publish Project
+                    Save Changes
                     <SendHorizontal className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </>
                 )}

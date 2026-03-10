@@ -27,7 +27,19 @@ export default function FeaturedWork() {
         const fetchedProjects: ImagePlaceholder[] = [];
         if (snapshot.exists()) {
           snapshot.forEach((childSnapshot) => {
-            fetchedProjects.push({ id: childSnapshot.key, ...childSnapshot.val() } as ImagePlaceholder);
+            const data = childSnapshot.val();
+            // Basic validation for imageUrl
+            const isValidImageUrl = data.imageUrl && (
+              data.imageUrl.startsWith('/') || 
+              data.imageUrl.startsWith('http://') || 
+              data.imageUrl.startsWith('https://')
+            );
+
+            if (isValidImageUrl) {
+              fetchedProjects.push({ id: childSnapshot.key, ...data } as ImagePlaceholder);
+            } else {
+              console.warn(`Skipping project ${childSnapshot.key} due to invalid imageUrl: ${data.imageUrl}`);
+            }
           });
         }
 
