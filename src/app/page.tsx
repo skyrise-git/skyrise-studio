@@ -7,16 +7,9 @@ import TechStack from '@/components/tech-stack';
 import FeaturedWork from '@/components/featured-work';
 import Footer from '@/components/footer';
 import WorldMap from "@/components/ui/world-map";
-import { db } from '@/lib/firebase';
-import { ref, get } from 'firebase/database';
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
-  const [globalData, setGlobalData] = useState({
-    heading: 'Global Presence',
-    highlight: 'Presence',
-    description: 'From the USA and Canada to Europe, Africa, and Asia, we deliver high-performance engineering solutions worldwide.',
-  });
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,20 +18,6 @@ export default function Home() {
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
-    const fetchGlobalData = async () => {
-      try {
-        const snapshot = await get(ref(db, 'marketing/global'));
-        if (snapshot.exists()) {
-          setGlobalData(snapshot.val());
-        }
-      } catch (error) {
-        console.error("Error fetching global data:", error);
-      }
-    };
-    fetchGlobalData();
   }, []);
 
   return (
@@ -64,11 +43,9 @@ export default function Home() {
 
           <section id="global" className="container mx-auto px-4">
             <div className="text-center mb-16">
-              <h2 className="text-5xl md:text-7xl font-logo uppercase">
-                {globalData.heading.replace(globalData.highlight, '')} <span className="text-theme-2 italic">{globalData.highlight}</span>
-              </h2>
+              <h2 className="text-5xl md:text-7xl font-logo uppercase">Global <span className="text-theme-2 italic">Presence</span></h2>
               <p className="text-muted-foreground font-body mt-2 max-w-2xl mx-auto">
-                {globalData.description}
+                From the USA and Canada to Europe, Africa, and Asia, we deliver high-performance engineering solutions worldwide.
               </p>
             </div>
             <div className="relative w-full max-w-5xl mx-auto rounded-3xl border border-white/5 bg-secondary/5 backdrop-blur-sm p-4 md:p-8">

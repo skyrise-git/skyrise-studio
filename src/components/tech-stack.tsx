@@ -1,12 +1,10 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import DecryptText from '@/components/decrypt-text';
 import { cn } from '@/lib/utils';
-import { db } from '@/lib/firebase';
-import { ref, get } from 'firebase/database';
 
-const defaultTechnologies = [
+const technologies = [
   { name: "C Language", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg" },
   { name: "C++", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg" },
   { name: "Python", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" },
@@ -32,21 +30,6 @@ const defaultTechnologies = [
 
 export default function TechStack() {
   const [hoveredTech, setHoveredTech] = useState<string | null>(null);
-  const [technologies, setTechnologies] = useState(defaultTechnologies);
-
-  useEffect(() => {
-    const fetchTechData = async () => {
-      try {
-        const snapshot = await get(ref(db, 'marketing/techStack'));
-        if (snapshot.exists()) {
-          setTechnologies(snapshot.val());
-        }
-      } catch (error) {
-        console.error("Error fetching tech stack data:", error);
-      }
-    };
-    fetchTechData();
-  }, []);
 
   return (
     <section className="relative container mx-auto px-4 py-24 overflow-hidden">
