@@ -10,6 +10,7 @@ export type ImagePlaceholder = {
   features: string[];
   imageUrl: string;
   imageHint: string;
+  createdAt?: string;
 };
 
 export const PlaceHolderImages: ImagePlaceholder[] = data.placeholderImages;

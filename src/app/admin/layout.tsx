@@ -1,35 +1,34 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+import { useRouter, usePathname } from 'next/navigation';
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AdminSidebar } from "@/components/admin-sidebar";
+import { Toaster } from "@/components/ui/toaster";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const [loadingUser, setLoadingUser] = useState(true);
+  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        router.push('/login');
-      } else {
-        setLoadingUser(false);
-      }
-    });
-
-    return () => {
-      unsubscribeAuth();
-    };
+    // Check local storage for our static auth flag
+    const authStatus = localStorage.getItem('admin_auth');
+    
+    if (authStatus === 'true') {
+      setIsAuthorized(true);
+      setIsLoading(false);
+    } else {
+      // Redirect to login if not authenticated
+      router.push('/login');
+    }
   }, [router]);
 
-  if (loadingUser) {
+  if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background text-foreground">
         <div className="animate-pulse bg-secondary/20 px-8 py-4 rounded-full border border-white/10 text-primary uppercase font-code tracking-widest text-sm shadow-xl">
-          Verifying Access...
+          Verifying Admin Session...
         </div>
       </div>
     );
@@ -48,6 +47,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="p-4 md:p-8 flex-1 w-full max-w-7xl mx-auto">
           {children}
         </div>
+        <Toaster />
       </main>
     </SidebarProvider>
   );

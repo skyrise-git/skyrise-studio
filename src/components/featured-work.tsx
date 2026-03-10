@@ -1,22 +1,28 @@
 "use client";
 
 import ProjectCard from './project-card';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
 import type { ImagePlaceholder } from '@/lib/placeholder-images';
 import { useState, useEffect } from 'react';
 import ProjectDialog from './project-dialog';
-import { ref, get, query, orderByChild } from 'firebase/database';
+import { ref, get, onValue } from 'firebase/database';
 import { db } from '@/lib/firebase';
 
 export default function FeaturedWork() {
-  const [projects, setProjects] = useState<ImagePlaceholder[]>(PlaceHolderImages);
+  const [projects, setProjects] = useState<ImagePlaceholder[]>([]);
   const [selectedProject, setSelectedProject] = useState<ImagePlaceholder | null>(null);
   const [open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [sectionContent, setSectionContent] = useState({
+    headline: 'Featured',
+    headlineHighlight: 'Solutions',
+    description: 'Delivering scalable web and mobile applications for our global partners.'
+  });
 
   useEffect(() => {
+    // Fetch Projects
     const fetchProjects = async () => {
       try {
-        const projectsRef = query(ref(db, 'projects'), orderByChild('createdAt'));
+        const projectsRef = ref(db, 'projects');
         const snapshot = await get(projectsRef);
         const fetchedProjects: ImagePlaceholder[] = [];
         if (snapshot.exists()) {
@@ -26,15 +32,30 @@ export default function FeaturedWork() {
         }
 
         if (fetchedProjects.length > 0) {
-          // Realtime db orderBy returns ascending, so reverse to get newest first
-          setProjects(fetchedProjects.reverse());
+          // Sort by createdAt descending (newest first) in JavaScript to avoid Firebase Index errors
+          const sorted = fetchedProjects.sort((a, b) => {
+            const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+            const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+            return dateB - dateA;
+          });
+          setProjects(sorted);
         }
       } catch (error) {
-        console.error("Error fetching projects from Firebase Database:", error);
+        console.error("Error fetching projects:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
+    // Fetch Section Content
+    const unsubContent = onValue(ref(db, 'content/projects'), (snapshot) => {
+      if (snapshot.exists()) {
+        setSectionContent(snapshot.val());
+      }
+    });
+
     fetchProjects();
+    return () => unsubContent();
   }, []);
 
   const handleProjectClick = (project: ImagePlaceholder) => {
@@ -42,50 +63,38 @@ export default function FeaturedWork() {
     setOpen(true);
   };
 
+  if (!isLoading && projects.length === 0) {
+    return null;
+  }
+
   return (
     <section className="container mx-auto animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
-      <div className="text-center mb-16">
-        <h2 className="text-5xl md:text-7xl font-logo uppercase">Featured <span className="text-theme-2 italic">Solutions</span></h2>
-        <p className="text-muted-foreground font-code mt-2">Delivering scalable web and mobile applications for our global partners.</p>
+      <div className="text-center mb-16 px-4">
+        <h2 className="text-5xl md:text-7xl font-logo uppercase">
+          {sectionContent.headline} <span className="text-theme-2 italic">{sectionContent.headlineHighlight}</span>
+        </h2>
+        <p className="text-muted-foreground font-code mt-4 max-w-2xl mx-auto">
+          {sectionContent.description}
+        </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-        {projects[0] && (
-          <div className="md:col-span-7">
-            <ProjectCard 
-              project={projects[0]} 
-              height="h-[400px]" 
-              onClick={() => handleProjectClick(projects[0])}
-            />
-          </div>
-        )}
-        {projects[1] && (
-          <div className="md:col-span-5">
-            <ProjectCard 
-              project={projects[1]} 
-              height="h-[400px]" 
-              onClick={() => handleProjectClick(projects[1])}
-            />
-          </div>
-        )}
-        {projects[2] && (
-          <div className="md:col-span-5">
-            <ProjectCard 
-              project={projects[2]} 
-              height="h-[400px]" 
-              onClick={() => handleProjectClick(projects[2])}
-            />
-          </div>
-        )}
-        {projects[3] && (
-          <div className="md:col-span-7">
-            <ProjectCard 
-              project={projects[3]} 
-              height="h-[400px]" 
-              onClick={() => handleProjectClick(projects[3])}
-            />
-          </div>
-        )}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 px-4">
+        {projects.map((project, index) => {
+          const isWide = index % 4 === 0 || index % 4 === 3;
+          
+          return (
+            <div 
+              key={project.id || index} 
+              className={isWide ? "md:col-span-7" : "md:col-span-5"}
+            >
+              <ProjectCard 
+                project={project} 
+                height="h-[400px] md:h-[500px]" 
+                onClick={() => handleProjectClick(project)}
+              />
+            </div>
+          );
+        })}
       </div>
 
       <ProjectDialog 

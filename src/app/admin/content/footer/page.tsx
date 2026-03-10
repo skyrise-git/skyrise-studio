@@ -6,11 +6,13 @@ import { ref, get, set } from 'firebase/database';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/hooks/use-toast';
 import { Save, PanelBottom } from 'lucide-react';
 
 export default function FooterContentPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const { toast } = useToast();
   const [data, setData] = useState({
     contactHeading: 'Get In Touch',
     contactText: "Have a project in mind or just want to say hello? We'd love to hear from you. Fill out the form and we'll get back to you as soon as possible.",
@@ -43,10 +45,17 @@ export default function FooterContentPage() {
     setIsSaving(true);
     try {
       await set(ref(db, 'content/footer'), data);
-      alert('Footer section content saved successfully!');
-    } catch (err) {
+      toast({
+        title: "Content Saved",
+        description: "Footer section updated successfully.",
+      });
+    } catch (err: any) {
       console.error("Error saving content:", err);
-      alert('Error saving content. Check console.');
+      toast({
+        title: "Error Saving",
+        description: "Failed to update content. See console for details.",
+        variant: "destructive",
+      });
     } finally {
       setIsSaving(false);
     }

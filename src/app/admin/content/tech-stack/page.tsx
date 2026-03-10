@@ -6,11 +6,13 @@ import { ref, get, set } from 'firebase/database';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/hooks/use-toast';
 import { Save, Cpu } from 'lucide-react';
 
 export default function TechStackContentPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const { toast } = useToast();
   const [data, setData] = useState({
     tag: 'System Capabilities',
     headline: 'Our',
@@ -39,10 +41,17 @@ export default function TechStackContentPage() {
     setIsSaving(true);
     try {
       await set(ref(db, 'content/techStack'), data);
-      alert('Tech Stack section content saved successfully!');
-    } catch (err) {
+      toast({
+        title: "Tech Stack Updated",
+        description: "Your system capabilities have been updated.",
+      });
+    } catch (err: any) {
       console.error("Error saving content:", err);
-      alert('Error saving content. Check console.');
+      toast({
+        title: "Update Failed",
+        description: "Failed to update tech stack section.",
+        variant: "destructive",
+      });
     } finally {
       setIsSaving(false);
     }

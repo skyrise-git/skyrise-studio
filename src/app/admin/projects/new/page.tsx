@@ -6,10 +6,12 @@ import { ref, push } from 'firebase/database';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/hooks/use-toast';
 import { PlusSquare, SendHorizontal } from 'lucide-react';
 
 export default function AddProjectPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
   const [projectForm, setProjectForm] = useState({
     title: '',
     description: '',
@@ -40,7 +42,10 @@ export default function AddProjectPage() {
         imageHint: projectForm.imageHint,
         createdAt: new Date().toISOString(),
       });
-      alert('Project added successfully!');
+      toast({
+        title: "Project Added",
+        description: "Your new work has been successfully published.",
+      });
       
       setProjectForm({
         title: '',
@@ -52,9 +57,13 @@ export default function AddProjectPage() {
         imageUrl: '',
         imageHint: '',
       });
-    } catch (err) {
+    } catch (err: any) {
       console.error("Error adding project:", err);
-      alert('Error adding project. Check console.');
+      toast({
+        title: "Error Creating Project",
+        description: "Failed to publish project. Check console for details.",
+        variant: "destructive",
+      });
     } finally {
       setIsSubmitting(false);
     }

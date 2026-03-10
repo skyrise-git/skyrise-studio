@@ -37,16 +37,26 @@ export function AdminSidebar() {
   const router = useRouter();
 
   const handleLogout = async () => {
-    await signOut(auth);
+    try {
+      await signOut(auth);
+    } catch (e) {
+      console.error("Firebase signout error", e);
+    }
+    localStorage.removeItem('admin_auth');
     router.push("/login");
   };
 
   return (
     <Sidebar variant="inset" className="border-r border-white/5 bg-secondary/10 backdrop-blur-md">
       <SidebarHeader className="p-4 border-b border-white/5">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded bg-primary flex items-center justify-center font-logo font-bold text-background text-xl">S</div>
-          <span className="font-logo font-bold uppercase text-lg text-primary">Skyrise</span>
+        <div className="flex items-center gap-3">
+          <div className="relative w-10 h-10 rounded-xl bg-primary/20 p-1.5 flex items-center justify-center border border-primary/20 shadow-lg shadow-primary/5">
+            <img src="/admin-logo.png" alt="Skyrise Logo" className="w-full h-full object-contain" />
+          </div>
+          <div className="flex flex-col">
+            <span className="font-logo font-bold uppercase text-lg text-primary tracking-widest leading-none">Skyrise</span>
+            <span className="text-[10px] font-code uppercase text-muted-foreground/60 tracking-tighter mt-1">Management Portal</span>
+          </div>
         </div>
       </SidebarHeader>
       

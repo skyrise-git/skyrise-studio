@@ -6,11 +6,13 @@ import { ref, get, set } from 'firebase/database';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/hooks/use-toast';
 import { Save, Globe } from 'lucide-react';
 
 export default function GlobalContentPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const { toast } = useToast();
   const [data, setData] = useState({
     headline: 'Global',
     headlineHighlight: 'Presence',
@@ -38,10 +40,17 @@ export default function GlobalContentPage() {
     setIsSaving(true);
     try {
       await set(ref(db, 'content/global'), data);
-      alert('Global section content saved successfully!');
-    } catch (err) {
+      toast({
+        title: "Section Saved",
+        description: "Global Presence details updated.",
+      });
+    } catch (err: any) {
       console.error("Error saving content:", err);
-      alert('Error saving content. Check console.');
+      toast({
+        title: "Save Failed",
+        description: "Error updating global section data.",
+        variant: "destructive",
+      });
     } finally {
       setIsSaving(false);
     }

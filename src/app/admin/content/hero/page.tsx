@@ -6,11 +6,13 @@ import { ref, get, set } from 'firebase/database';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/hooks/use-toast';
 import { Save, Layout } from 'lucide-react';
 
 export default function HeroContentPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const { toast } = useToast();
   const [data, setData] = useState({
     title: 'SKYRISE',
     subtitle: 'We are a premier Software Dev Team providing scalable software solutions...',
@@ -41,10 +43,17 @@ export default function HeroContentPage() {
     setIsSaving(true);
     try {
       await set(ref(db, 'content/hero'), data);
-      alert('Hero content saved successfully!');
-    } catch (err) {
+      toast({
+        title: "Hero Updated",
+        description: "Your changes have been deployed to the live site.",
+      });
+    } catch (err: any) {
       console.error("Error saving content:", err);
-      alert('Error saving content. Check console.');
+      toast({
+        title: "Update Failed",
+        description: "There was an error saving your changes.",
+        variant: "destructive",
+      });
     } finally {
       setIsSaving(false);
     }
