@@ -25,6 +25,13 @@ const adminMenu = [
   { title: "Add Project", url: "/admin/projects/new", icon: PlusSquare },
 ];
 
+const contentMenu = [
+  { title: "Hero Section", url: "/admin/content/hero" },
+  { title: "Global Presence", url: "/admin/content/global" },
+  { title: "Tech Stack & Skills", url: "/admin/content/tech-stack" },
+  { title: "Footer", url: "/admin/content/footer" },
+];
+
 export function AdminSidebar() {
   const pathname = usePathname();
   const router = useRouter();
@@ -38,8 +45,8 @@ export function AdminSidebar() {
     <Sidebar variant="inset" className="border-r border-white/5 bg-secondary/10 backdrop-blur-md">
       <SidebarHeader className="p-4 border-b border-white/5">
         <div className="flex items-center gap-2">
-          <LayoutDashboard className="w-6 h-6 text-primary" />
-          <span className="font-logo font-bold uppercase text-lg text-primary">Admin</span>
+          <div className="w-8 h-8 rounded bg-primary flex items-center justify-center font-logo font-bold text-background text-xl">S</div>
+          <span className="font-logo font-bold uppercase text-lg text-primary">Skyrise</span>
         </div>
       </SidebarHeader>
       
@@ -60,6 +67,30 @@ export function AdminSidebar() {
                     <Link href={item.url} className="flex items-center gap-3">
                       <item.icon className="w-5 h-5" />
                       <span className="font-medium">{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        
+        <SidebarGroup>
+          <SidebarGroupLabel className="text-muted-foreground font-code text-xs uppercase tracking-wider mt-4">
+            Marketing Page Editing
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {contentMenu.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton 
+                    asChild 
+                    isActive={pathname === item.url}
+                    className="hover:bg-primary/10 hover:text-primary transition-colors duration-200 py-3"
+                  >
+                    <Link href={item.url} className="flex items-center gap-3">
+                      <LayoutDashboard className="w-4 h-4 opacity-70" />
+                      <span className="font-medium text-sm">{item.title}</span>
                     </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

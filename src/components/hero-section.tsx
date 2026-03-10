@@ -4,12 +4,33 @@ import { ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
 import DecryptText from "./decrypt-text";
+import { useEffect, useState } from "react";
+import { db } from "@/lib/firebase";
+import { ref, onValue } from "firebase/database";
 
 type HeroSectionProps = {
   scrollY: number;
 };
 
 export default function HeroSection({ scrollY }: HeroSectionProps) {
+  const [content, setContent] = useState({
+    title: 'SKYRISE',
+    subtitle: 'We are a premier Software Dev Team providing scalable software solutions. Leveraging Next.js, Node, React, Python, Rust, Go, and Flutter to build high-performance web, mobile, and desktop applications with robust backend APIs.',
+    btn1Text: 'Explore Dossiers',
+    btn1Url: '#projects',
+    btn2Text: 'Initiate Contact',
+    btn2Url: '#contact',
+  });
+
+  useEffect(() => {
+    const unsub = onValue(ref(db, 'content/hero'), (snapshot) => {
+      if (snapshot.exists()) {
+        setContent(snapshot.val());
+      }
+    });
+    return () => unsub();
+  }, []);
+
   return (
     <section className="relative h-[120vh] min-h-[700px] w-full flex items-center justify-center text-center overflow-hidden">
       <div 
@@ -42,17 +63,17 @@ export default function HeroSection({ scrollY }: HeroSectionProps) {
         style={{ transform: `translateY(${scrollY * 0.2}px)` }}
       >
         <h1 className="text-6xl sm:text-8xl md:text-9xl font-bold font-logo tracking-widest text-primary">
-          <DecryptText text="SKYRISE" />
+          <DecryptText text={content.title} />
         </h1>
         <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl text-balance font-body tracking-wide">
-          We are a premier Software Dev Team providing scalable software solutions. Leveraging Next.js, Node, React, Python, Rust, Go, and Flutter to build high-performance web, mobile, and desktop applications with robust backend APIs.
+          {content.subtitle}
         </p>
         <div className="mt-12 flex flex-col sm:flex-row gap-4">
           <Button asChild size="lg" className="font-code uppercase tracking-wider">
-            <Link href="#projects">Explore Dossiers</Link>
+            <Link href={content.btn1Url}>{content.btn1Text}</Link>
           </Button>
           <Button asChild size="lg" variant="outline" className="font-code uppercase tracking-wider">
-            <Link href="#contact">Initiate Contact</Link>
+            <Link href={content.btn2Url}>{content.btn2Text}</Link>
           </Button>
         </div>
       </div>

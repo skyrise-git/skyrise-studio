@@ -1,8 +1,10 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import DecryptText from '@/components/decrypt-text';
 import { cn } from '@/lib/utils';
+import { db } from '@/lib/firebase';
+import { ref, onValue } from 'firebase/database';
 
 const technologies = [
   { name: "C Language", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg" },
@@ -30,6 +32,21 @@ const technologies = [
 
 export default function TechStack() {
   const [hoveredTech, setHoveredTech] = useState<string | null>(null);
+  const [content, setContent] = useState({
+    tag: 'System Capabilities',
+    headline: 'Our',
+    headlineHighlight: 'Arsenal',
+    description: 'Engineered with precision testing and high-performance frameworks to build the future of digital experiences.',
+  });
+
+  useEffect(() => {
+    const unsub = onValue(ref(db, 'content/techStack'), (snapshot) => {
+      if (snapshot.exists()) {
+        setContent(snapshot.val());
+      }
+    });
+    return () => unsub();
+  }, []);
 
   return (
     <section className="relative container mx-auto px-4 py-24 overflow-hidden">
@@ -44,15 +61,15 @@ export default function TechStack() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
             </span>
-            <span className="text-[10px] font-code uppercase tracking-[0.4em] text-primary/80">System Capabilities</span>
+            <span className="text-[10px] font-code uppercase tracking-[0.4em] text-primary/80">{content.tag}</span>
           </div>
           
           <h2 className="text-6xl md:text-8xl font-logo uppercase leading-none tracking-tighter mb-4 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
-            Our <span className="text-theme-2 italic">Arsenal</span>
+            {content.headline} <span className="text-theme-2 italic">{content.headlineHighlight}</span>
           </h2>
           
           <p className="max-w-xl mx-auto text-muted-foreground font-body text-lg animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
-            Engineered with precision testing and high-performance frameworks to build the future of digital experiences.
+            {content.description}
           </p>
         </div>
 

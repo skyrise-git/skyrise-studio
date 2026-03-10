@@ -6,8 +6,8 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import DecryptText from './decrypt-text';
-import { useState } from 'react';
-import { ref, push } from 'firebase/database';
+import { useState, useEffect } from 'react';
+import { ref, push, onValue } from 'firebase/database';
 import { db } from '@/lib/firebase';
 
 export default function Footer() {
@@ -17,6 +17,26 @@ export default function Footer() {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  const [content, setContent] = useState({
+    contactHeading: 'Get In Touch',
+    contactText: "Have a project in mind or just want to say hello? We'd love to hear from you. Fill out the form and we'll get back to you as soon as possible.",
+    col1Header: 'Global Delivery',
+    col1Text: 'USA • Canada • Europe • South Africa • Zimbabwe',
+    col2Header: 'Core Services',
+    col2Text: 'Custom Software • Mobile Apps • Web Design • Cloud Solutions',
+    companyName: 'SKYRISE',
+    copyright: 'SkyRise Softwares. All Rights Reserved.',
+  });
+
+  useEffect(() => {
+    const unsub = onValue(ref(db, 'content/footer'), (snapshot) => {
+      if (snapshot.exists()) {
+        setContent(snapshot.val());
+      }
+    });
+    return () => unsub();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,10 +72,9 @@ export default function Footer() {
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-16">
           <div>
-            <h2 className="text-5xl md:text-7xl mb-4 font-logo"><DecryptText text="Get In Touch" /></h2>
+            <h2 className="text-5xl md:text-7xl mb-4 font-logo"><DecryptText text={content.contactHeading} /></h2>
             <p className="text-muted-foreground font-body max-w-md">
-              Have a project in mind or just want to say hello? We'd love to hear from you.
-              Fill out the form and we'll get back to you as soon as possible.
+              {content.contactText}
             </p>
           </div>
           <form className="space-y-6" onSubmit={handleSubmit}>
@@ -96,22 +115,22 @@ export default function Footer() {
         <div className="mb-12 border-t border-white/5 pt-8 text-center md:text-left">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm text-muted-foreground/60 font-code uppercase tracking-wider">
               <div>
-                <span className="text-primary/60 block mb-2">Global Delivery</span>
-                USA • Canada • Europe • South Africa • Zimbabwe
+                <span className="text-primary/60 block mb-2">{content.col1Header}</span>
+                {content.col1Text}
               </div>
               <div className="md:text-right">
-                 <span className="text-primary/60 block mb-2">Core Services</span>
-                 Custom Software • Mobile Apps • Web Design • Cloud Solutions
+                 <span className="text-primary/60 block mb-2">{content.col2Header}</span>
+                 {content.col2Text}
               </div>
             </div>
         </div>
 
         <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
           <div className="font-logo text-lg tracking-widest text-primary">
-            SKYRISE
+            {content.companyName}
           </div>
           <p className="text-sm text-muted-foreground font-code">
-            &copy; {new Date().getFullYear()} SkyRise Softwares. All Rights Reserved.
+            &copy; {new Date().getFullYear()} {content.copyright}
           </p>
           <div className="flex gap-4">
             <Link href="#" aria-label="Github" className="text-muted-foreground hover:text-primary transition-colors"><Github size={20} /></Link>
