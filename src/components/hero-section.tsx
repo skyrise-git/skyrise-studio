@@ -1,15 +1,41 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
 import DecryptText from "./decrypt-text";
+import { db } from '@/lib/firebase';
+import { ref, get } from 'firebase/database';
 
 type HeroSectionProps = {
   scrollY: number;
 };
 
 export default function HeroSection({ scrollY }: HeroSectionProps) {
+  const [heroData, setHeroData] = useState({
+    heading: 'SKYRISE',
+    description: 'We are a premier Software Dev Team providing scalable software solutions. Leveraging Next.js, Node, React, Python, Rust, Go, and Flutter to build high-performance web, mobile, and desktop applications with robust backend APIs.',
+    button1Text: 'Explore Dossiers',
+    button1Link: '#projects',
+    button2Text: 'Initiate Contact',
+    button2Link: '#contact',
+  });
+
+  useEffect(() => {
+    const fetchHeroData = async () => {
+      try {
+        const snapshot = await get(ref(db, 'marketing/hero'));
+        if (snapshot.exists()) {
+          setHeroData(snapshot.val());
+        }
+      } catch (error) {
+        console.error("Error fetching hero data:", error);
+      }
+    };
+    fetchHeroData();
+  }, []);
+
   return (
     <section className="relative h-[120vh] min-h-[700px] w-full flex items-center justify-center text-center overflow-hidden">
       <div 
@@ -41,18 +67,18 @@ export default function HeroSection({ scrollY }: HeroSectionProps) {
         className="relative z-10 flex flex-col items-center animate-in fade-in duration-1000"
         style={{ transform: `translateY(${scrollY * 0.2}px)` }}
       >
-        <h1 className="text-6xl sm:text-8xl md:text-9xl font-bold font-logo tracking-widest text-primary">
-          <DecryptText text="SKYRISE" />
+        <h1 className="text-6xl sm:text-8xl md:text-9xl font-bold font-logo tracking-widest text-primary break-words max-w-full px-4">
+          <DecryptText text={heroData.heading} />
         </h1>
-        <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl text-balance font-body tracking-wide">
-          We are a premier Software Dev Team providing scalable software solutions. Leveraging Next.js, Node, React, Python, Rust, Go, and Flutter to build high-performance web, mobile, and desktop applications with robust backend APIs.
+        <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl text-balance font-body tracking-wide px-4">
+          {heroData.description}
         </p>
         <div className="mt-12 flex flex-col sm:flex-row gap-4">
           <Button asChild size="lg" className="font-code uppercase tracking-wider">
-            <Link href="#projects">Explore Dossiers</Link>
+            <Link href={heroData.button1Link || "#projects"}>{heroData.button1Text}</Link>
           </Button>
           <Button asChild size="lg" variant="outline" className="font-code uppercase tracking-wider">
-            <Link href="#contact">Initiate Contact</Link>
+            <Link href={heroData.button2Link || "#contact"}>{heroData.button2Text}</Link>
           </Button>
         </div>
       </div>
