@@ -10,8 +10,8 @@ import { Loader2, Lock, Mail, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('admin@gmail.com');
-  const [password, setPassword] = useState('admin@gmail.com');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
