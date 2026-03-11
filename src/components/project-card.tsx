@@ -28,16 +28,17 @@ export default function ProjectCard({ project, className, height = 'h-[400px]', 
         src={project.imageUrl}
         alt={project.title}
         fill
+        unoptimized
         sizes="(max-width: 768px) 100vw, 50vw"
         className="object-cover transition-transform duration-700 ease-out group-hover:scale-110 opacity-30 group-hover:opacity-60"
         data-ai-hint={project.imageHint}
       />
       
-      {/* Main Content Centered */}
-      <div className="relative z-20 flex flex-col justify-center items-start h-full max-w-2xl px-4 md:px-0">
+      {/* Main Content Bottom Aligned */}
+      <div className="relative z-20 flex flex-col justify-end items-start h-full max-w-2xl px-4 md:px-0">
         <ArrowUpRight className="absolute top-0 right-0 h-8 w-8 text-white/30 transition-all duration-500 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-primary" />
         
-        <h3 className="text-4xl md:text-5xl lg:text-6xl font-logo font-black tracking-tighter text-primary uppercase leading-none mb-4 transition-all duration-500 group-hover:scale-[1.02] origin-left">
+        <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold font-logo tracking-widest text-primary uppercase leading-tight mb-4 transition-all duration-500 group-hover:scale-[1.02] origin-left">
           {project.title}
         </h3>
         

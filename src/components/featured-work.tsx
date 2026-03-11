@@ -19,45 +19,43 @@ export default function FeaturedWork() {
   });
 
   useEffect(() => {
-    // Fetch Projects
-    const fetchProjects = async () => {
+    // Fetch Projects with real-time listener
+    const projectsRef = ref(db, 'projects');
+    const unsubProjects = onValue(projectsRef, (snapshot) => {
       try {
-        const projectsRef = ref(db, 'projects');
-        const snapshot = await get(projectsRef);
-        const fetchedProjects: ImagePlaceholder[] = [];
         if (snapshot.exists()) {
+          const fetchedProjects: ImagePlaceholder[] = [];
           snapshot.forEach((childSnapshot) => {
             const data = childSnapshot.val();
-            // Basic validation for imageUrl
-            const isValidImageUrl = data.imageUrl && (
-              data.imageUrl.startsWith('/') || 
-              data.imageUrl.startsWith('http://') || 
-              data.imageUrl.startsWith('https://')
-            );
-
-            if (isValidImageUrl) {
-              fetchedProjects.push({ id: childSnapshot.key, ...data } as ImagePlaceholder);
-            } else {
-              console.warn(`Skipping project ${childSnapshot.key} due to invalid imageUrl: ${data.imageUrl}`);
-            }
+            // Greatly relax validation to allow Base64 and optional images
+            fetchedProjects.push({ 
+              id: childSnapshot.key, 
+              ...data,
+              // Fallback for missing images
+              imageUrl: data.imageUrl || "https://images.unsplash.com/photo-1572177662444-1f736cbd65b8?q=80&w=1000&auto=format&fit=crop"
+            } as ImagePlaceholder);
           });
-        }
 
-        if (fetchedProjects.length > 0) {
-          // Sort by createdAt descending (newest first) in JavaScript to avoid Firebase Index errors
-          const sorted = fetchedProjects.sort((a, b) => {
+          // Sort by createdAt descending (newest first)
+          fetchedProjects.sort((a, b) => {
             const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
             const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
             return dateB - dateA;
           });
-          setProjects(sorted);
+          
+          setProjects(fetchedProjects);
+        } else {
+          setProjects([]);
         }
       } catch (error) {
-        console.error("Error fetching projects:", error);
+        console.error("Error processing projects:", error);
       } finally {
         setIsLoading(false);
       }
-    };
+    }, (error) => {
+      console.error("Error fetching projects listener:", error);
+      setIsLoading(false);
+    });
 
     // Fetch Section Content
     const unsubContent = onValue(ref(db, 'content/projects'), (snapshot) => {
@@ -66,8 +64,10 @@ export default function FeaturedWork() {
       }
     });
 
-    fetchProjects();
-    return () => unsubContent();
+    return () => {
+      unsubProjects();
+      unsubContent();
+    };
   }, []);
 
   const handleProjectClick = (project: ImagePlaceholder) => {
