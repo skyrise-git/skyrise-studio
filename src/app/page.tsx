@@ -55,6 +55,10 @@ export default function Home() {
       <main className="flex-grow z-10">
         <HeroSection scrollY={scrollY} />
         <div className="space-y-48 md:space-y-64 py-24 md:py-32 overflow-hidden">
+          <section id="projects">
+            <FeaturedWork />
+          </section>
+
           <section id="skills">
             <TechStack />
           </section>
@@ -101,10 +105,6 @@ export default function Home() {
                 ]}
               />
             </div>
-          </section>
-
-          <section id="projects">
-            <FeaturedWork />
           </section>
         </div>
         <Footer />
