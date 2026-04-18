@@ -333,6 +333,61 @@ export const WAAS_REGIONS: Record<CountryCode, RegionPricing> = {
   },
 };
 
+/** Per-region SEO: meta description length tuned for search snippets (~150–165 chars). */
+export type WaasRegionSeo = {
+  metaDescription: string;
+  keywords: string[];
+  /** Open Graph locale (underscore). */
+  ogLocale: string;
+  /** BCP 47 language–region for hreflang. */
+  hreflang: string;
+};
+
+export const WAAS_REGION_SEO: Record<CountryCode, WaasRegionSeo> = {
+  za: {
+    metaDescription:
+      "SkyRise Website as a Service (WaaS) pricing for South Africa: monthly plans from Starter to Platform, setup fees, subscription or buy-out, plus custom enterprise tiers. Hosting, SSL & updates included.",
+    keywords: [
+      "Website as a Service South Africa",
+      "WaaS pricing South Africa",
+      "web design subscription SA",
+      "business website monthly fee South Africa",
+      "SkyRise Studio",
+      "managed website hosting South Africa",
+    ],
+    ogLocale: "en_ZA",
+    hreflang: "en-ZA",
+  },
+  zw: {
+    metaDescription:
+      "SkyRise WaaS pricing for Zimbabwe: mobile-first, data-light plans with EcoCash and local payment options, hybrid subscription or ownership, Platform tier, and bespoke custom builds for enterprise.",
+    keywords: [
+      "Website as a Service Zimbabwe",
+      "WaaS pricing Zimbabwe",
+      "business website Zimbabwe",
+      "EcoCash website",
+      "SkyRise Studio",
+      "managed hosting Zimbabwe",
+    ],
+    ogLocale: "en_ZW",
+    hreflang: "en-ZW",
+  },
+  us: {
+    metaDescription:
+      "SkyRise Website as a Service pricing for the United States: Launch through Enterprise tiers, ADA-aware builds, Stripe and integrations, monthly subscription or outright purchase, and custom SLAs.",
+    keywords: [
+      "Website as a Service USA",
+      "WaaS pricing United States",
+      "business website subscription US",
+      "managed website ADA",
+      "SkyRise Studio",
+      "web development monthly plan",
+    ],
+    ogLocale: "en_US",
+    hreflang: "en-US",
+  },
+};
+
 export const WAAS_COMPARISON_ROWS: { label: string; sub: string; own: string; custom: string }[] = [
   {
     label: 'Upfront Cost',

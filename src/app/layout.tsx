@@ -1,12 +1,18 @@
 import type { Metadata } from 'next';
 import { Toaster } from '@/components/ui/toaster';
 import { ThemeProvider } from '@/components/theme-provider';
+import { getMetadataBase } from '@/lib/site-url';
 import './globals.css';
 
 export const metadata: Metadata = {
+  metadataBase: getMetadataBase(),
   title: 'SkyRise Studio | Global Software Development & Scalable Solutions',
   description: 'SkyRise Studio is a premier software development team providing scalable solutions in Next.js, Node, React, Python, Rust, Go, and Flutter. Serving clients globally across USA, Canada, Europe, South Africa, and Zimbabwe.',
   keywords: ['Software Development', 'Web Development', 'Mobile Apps', 'Next.js', 'React', 'Node.js', 'Rust', 'Go', 'Flutter', 'Scalable Solutions', 'Global Tech Team'],
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
