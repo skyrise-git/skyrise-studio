@@ -128,7 +128,7 @@ export default function TechStack() {
 
           <h2 className="text-5xl md:text-7xl lg:text-8xl font-logo uppercase leading-[0.95] tracking-tighter mb-5">
             {content.headline}{" "}
-            <span className="text-theme-2 italic">{content.headlineHighlight}</span>
+            <span className="text-theme-2">{content.headlineHighlight}</span>
           </h2>
 
           <p className="max-w-2xl mx-auto md:mx-0 text-muted-foreground font-body text-lg leading-relaxed">

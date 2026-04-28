@@ -65,7 +65,7 @@ export default function Home() {
 
           <section id="global" className="scroll-mt-28 container mx-auto px-4">
             <div className="text-center mb-16">
-              <h2 className="text-5xl md:text-7xl font-logo uppercase">{globalContent.headline} <span className="text-theme-2 italic">{globalContent.headlineHighlight}</span></h2>
+              <h2 className="text-5xl md:text-7xl font-logo uppercase">{globalContent.headline} <span className="text-theme-2">{globalContent.headlineHighlight}</span></h2>
               <p className="text-muted-foreground font-body mt-2 max-w-2xl mx-auto">
                 {globalContent.description}
               </p>

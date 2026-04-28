@@ -95,7 +95,7 @@ export default function WaasPricingClient({ country }: WaasPricingClientProps) {
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-logo uppercase tracking-wide max-w-4xl mb-7 leading-[1.05]">
             Your website,
             <br />
-            <span className="text-theme-2 italic">without the risk.</span>
+            <span className="text-theme-2">without the risk.</span>
           </h1>
           <p className="text-muted-foreground font-body text-base md:text-lg max-w-xl leading-relaxed font-light">
             Traditional web projects demand large upfront investments — before you&apos;ve earned a single rand or
@@ -139,7 +139,7 @@ export default function WaasPricingClient({ country }: WaasPricingClientProps) {
                 <h3 className="font-logo text-lg font-bold uppercase tracking-wide mb-1">{pkg.title}</h3>
                 <p
                   className={cn(
-                    "text-[13px] italic min-h-[2.5rem] mb-4 leading-snug",
+                    "text-[13px] min-h-[2.5rem] mb-4 leading-snug",
                     pkg.popular ? "text-zinc-400" : "text-muted-foreground",
                   )}
                 >
@@ -232,7 +232,7 @@ export default function WaasPricingClient({ country }: WaasPricingClientProps) {
                 <h3 className="font-logo text-xl md:text-2xl lg:text-3xl font-bold uppercase tracking-wide text-zinc-100 mb-4 leading-tight">
                   {region.custom.titleLine1}
                   <br />
-                  <span className="text-theme-2 italic">{region.custom.titleEmphasis}</span>
+                  <span className="text-theme-2">{region.custom.titleEmphasis}</span>
                 </h3>
                 <p className="text-sm text-zinc-400 leading-relaxed max-w-2xl mb-5">{region.custom.description}</p>
                 <div className="flex flex-wrap gap-2">
@@ -271,7 +271,7 @@ export default function WaasPricingClient({ country }: WaasPricingClientProps) {
               <h2 className="text-3xl md:text-4xl font-logo uppercase tracking-wide leading-tight">
                 Not sure which
                 <br />
-                model fits? <span className="text-theme-2 italic">Here&apos;s the breakdown.</span>
+                model fits? <span className="text-theme-2">Here&apos;s the breakdown.</span>
               </h2>
             </div>
             <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">

@@ -27,6 +27,14 @@ export default {
         'wider': '.2em',
         'widest': '.3em',
       },
+      /** Site uses no bold weight: map “strong” utilities to regular 400 */
+      fontWeight: {
+        medium: '400',
+        semibold: '400',
+        bold: '400',
+        extrabold: '400',
+        black: '400',
+      },
       colors: {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',

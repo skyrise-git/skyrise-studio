@@ -69,11 +69,26 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-headline uppercase tracking-wider;
+    @apply font-headline font-normal not-italic uppercase tracking-wider;
+  }
+
+  strong,
+  b {
+    @apply font-normal;
+  }
+
+  em,
+  i {
+    @apply not-italic;
   }
 }
 
 @layer utilities {
+  /* Neutralize Tailwind `italic` utility site-wide */
+  .italic {
+    font-style: normal !important;
+  }
+
   .text-balance {
     text-wrap: balance;
   }

@@ -17,7 +17,7 @@ export default function HowItWorksPage() {
       heroTitle={
         <>
           How WaaS{" "}
-          <span className="text-theme-2 italic">works</span>
+          <span className="text-theme-2">works</span>
         </>
       }
       heroLead={

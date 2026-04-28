@@ -83,7 +83,7 @@ export default function FeaturedWork() {
     <section className="container mx-auto animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
       <div className="text-center mb-16 px-4">
         <h2 className="text-5xl md:text-7xl font-logo uppercase">
-          {sectionContent.headline} <span className="text-theme-2 italic">{sectionContent.headlineHighlight}</span>
+          {sectionContent.headline} <span className="text-theme-2">{sectionContent.headlineHighlight}</span>
         </h2>
         <p className="text-muted-foreground font-code mt-4 max-w-2xl mx-auto">
           {sectionContent.description}
