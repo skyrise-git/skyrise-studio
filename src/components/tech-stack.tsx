@@ -1,46 +1,104 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
-import DecryptText from '@/components/decrypt-text';
-import { cn } from '@/lib/utils';
-import { db } from '@/lib/firebase';
-import { ref, onValue } from 'firebase/database';
+import React, { useState, useEffect } from "react";
+import { cn } from "@/lib/utils";
+import { db } from "@/lib/firebase";
+import { ref, onValue } from "firebase/database";
+import { Bot, Cpu, Smartphone } from "lucide-react";
 
-const technologies = [
-  { name: "C Language", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg" },
-  { name: "C++", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg" },
-  { name: "Python", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" },
-  { name: "HTML5", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" },
-  { name: "CSS3", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg" },
-  { name: "JavaScript", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" },
-  { name: "TypeScript", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg" },
-  { name: "React", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg" },
-  { name: "Next.js", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg" },
-  { name: "Tailwind", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg" },
-  { name: "Docker", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg" },
-  { name: "Firebase", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/firebase/firebase-original.svg" },
-  { name: "PostgreSQL", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg" },
-  { name: "MySQL", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg" },
-  { name: "MongoDB", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg" },
-  { name: "SQLite", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sqlite/sqlite-original.svg" },
-  { name: "Git", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg" },
-  { name: "NPM", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/npm/npm-original-wordmark.svg" },
-  { name: "VS Code", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg" },
-  { name: "Linux", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/linux/linux-original.svg" },
-  { name: "Ubuntu", src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/ubuntu/ubuntu-plain-wordmark.svg" },
-];
+const CAPABILITIES = [
+  {
+    icon: Cpu,
+    title: "Custom software",
+    body: "Backend systems, integrations, and product logic — not just marketing pages. We design for scale, security, and long-term maintainability.",
+  },
+  {
+    icon: Smartphone,
+    title: "Mobile applications",
+    body: "iOS, Android, and cross-platform apps with the same engineering rigor as our web stack — offline-first when your users need it.",
+  },
+  {
+    icon: Bot,
+    title: "AI & automation",
+    body: "LLM features, internal copilots, and workflow automation embedded into your product — where models add real value, not hype.",
+  },
+] as const;
+
+function RoboticsIllustration({ className }: { className?: string }) {
+  return (
+    <div
+      className={cn(
+        "relative aspect-square max-w-md mx-auto md:mx-0 rounded-2xl border border-white/10 bg-gradient-to-br from-zinc-950/80 to-zinc-900/40 overflow-hidden",
+        className
+      )}
+    >
+      <div
+        className="absolute inset-0 opacity-[0.06]"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(127,0,13,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(127,0,13,0.35) 1px, transparent 1px)",
+          backgroundSize: "24px 24px",
+        }}
+      />
+      <svg
+        viewBox="0 0 400 400"
+        className="relative w-full h-full text-primary p-8 md:p-10"
+        aria-hidden
+      >
+        <defs>
+          <linearGradient id="cap-glow" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="rgb(127 0 13)" stopOpacity="0.9" />
+            <stop offset="100%" stopColor="rgb(224 224 224)" stopOpacity="0.15" />
+          </linearGradient>
+        </defs>
+        {/* Abstract chassis */}
+        <path
+          d="M120 280 L120 140 Q120 100 160 100 L240 100 Q280 100 280 140 L280 280"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="opacity-90"
+        />
+        <rect x="155" y="115" width="90" height="70" rx="8" fill="none" stroke="currentColor" strokeWidth="1.5" className="opacity-70" />
+        <circle cx="200" cy="148" r="14" fill="none" stroke="url(#cap-glow)" strokeWidth="2" className="animate-pulse" />
+        {/* Arms */}
+        <path d="M120 175 L85 195 L70 250" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="opacity-60" />
+        <path d="M280 175 L315 195 L330 250" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="opacity-60" />
+        {/* Joint nodes */}
+        {[
+          [120, 175],
+          [280, 175],
+          [160, 260],
+          [240, 260],
+        ].map(([x, y], i) => (
+          <circle key={i} cx={x} cy={y} r="5" fill="currentColor" className="opacity-80" />
+        ))}
+        {/* Base */}
+        <ellipse cx="200" cy="295" rx="95" ry="22" fill="none" stroke="currentColor" strokeWidth="1.5" className="opacity-40" />
+        <path d="M130 280 L170 315 L230 315 L270 280" fill="none" stroke="currentColor" strokeWidth="2" className="opacity-50" />
+        {/* Circuit accents */}
+        <path d="M60 90 H340 M90 60 V120 M310 60 V120" stroke="currentColor" strokeWidth="0.75" className="opacity-25" />
+        <circle cx="90" cy="90" r="3" fill="currentColor" className="opacity-40" />
+        <circle cx="310" cy="90" r="3" fill="currentColor" className="opacity-40" />
+      </svg>
+      <p className="absolute bottom-4 left-4 right-4 text-center font-code text-[9px] uppercase tracking-[0.35em] text-white/35">
+        Systems · Interfaces · Intelligence
+      </p>
+    </div>
+  );
+}
 
 export default function TechStack() {
-  const [hoveredTech, setHoveredTech] = useState<string | null>(null);
   const [content, setContent] = useState({
-    tag: 'System Capabilities',
-    headline: 'Our',
-    headlineHighlight: 'Arsenal',
-    description: 'Engineered with precision testing and high-performance frameworks to build the future of digital experiences.',
+    tag: "Engineering scope",
+    headline: "Software,",
+    headlineHighlight: "ships & models",
+    description:
+      "We build serious products: distributed backends, mobile clients, and AI that fits your workflow — not a logo grid of libraries.",
   });
 
   useEffect(() => {
-    const unsub = onValue(ref(db, 'content/techStack'), (snapshot) => {
+    const unsub = onValue(ref(db, "content/techStack"), (snapshot) => {
       if (snapshot.exists()) {
         setContent(snapshot.val());
       }
@@ -50,113 +108,57 @@ export default function TechStack() {
 
   return (
     <section className="relative container mx-auto px-4 py-24 overflow-hidden">
-      {/* Background Decor */}
-      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
-           style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '32px 32px' }} />
-      
-      <div className="relative z-10 flex flex-col items-center">
-        <div className="mb-16 text-center">
-          <div className="inline-flex items-center gap-3 px-3 py-1 rounded-full border border-primary/20 bg-primary/5 mb-6 animate-in fade-in slide-in-from-top-4 duration-1000">
+      <div
+        className="absolute inset-0 opacity-[0.03] pointer-events-none"
+        style={{
+          backgroundImage: "radial-gradient(circle at 2px 2px, white 1px, transparent 0)",
+          backgroundSize: "32px 32px",
+        }}
+      />
+
+      <div className="relative z-10 max-w-6xl mx-auto">
+        <div className="mb-14 md:mb-16 text-center md:text-left">
+          <div className="inline-flex items-center gap-3 px-3 py-1 rounded-full border border-primary/20 bg-primary/5 mb-6">
             <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
             </span>
             <span className="text-[10px] font-code uppercase tracking-[0.4em] text-primary/80">{content.tag}</span>
           </div>
-          
-          <h2 className="text-6xl md:text-8xl font-logo uppercase leading-none tracking-tighter mb-4 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
-            {content.headline} <span className="text-theme-2 italic">{content.headlineHighlight}</span>
+
+          <h2 className="text-5xl md:text-7xl lg:text-8xl font-logo uppercase leading-[0.95] tracking-tighter mb-5">
+            {content.headline}{" "}
+            <span className="text-theme-2 italic">{content.headlineHighlight}</span>
           </h2>
-          
-          <p className="max-w-xl mx-auto text-muted-foreground font-body text-lg animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
+
+          <p className="max-w-2xl mx-auto md:mx-0 text-muted-foreground font-body text-lg leading-relaxed">
             {content.description}
           </p>
         </div>
 
-        {/* Tech Console */}
-        <div className="relative w-full max-w-5xl">
-          {/* Decorative Corner Accents */}
-          <div className="absolute -top-4 -left-4 w-12 h-12 border-t-2 border-l-2 border-theme-2/30" />
-          <div className="absolute -top-4 -right-4 w-12 h-12 border-t-2 border-r-2 border-theme-2/30" />
-          <div className="absolute -bottom-4 -left-4 w-12 h-12 border-b-2 border-l-2 border-theme-2/30" />
-          <div className="absolute -bottom-4 -right-4 w-12 h-12 border-b-2 border-r-2 border-theme-2/30" />
+        <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] gap-12 lg:gap-16 items-center">
+          <RoboticsIllustration />
 
-          {/* Grid Container */}
-          <div className="relative p-8 rounded-xl border border-white/5 bg-secondary/5 backdrop-blur-sm overflow-hidden group">
-            {/* Scanning Line */}
-            <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-theme-2/50 to-transparent animate-scan z-20" />
-            
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-4 md:gap-6">
-              {technologies.map((tech, index) => (
-                <div
-                  key={tech.name}
-                  className="group/item relative flex flex-col items-center justify-center aspect-square rounded-lg border border-white/5 bg-white/5 hover:bg-theme-1/10 hover:border-theme-2/40 transition-all duration-500 cursor-help"
-                  onMouseEnter={() => setHoveredTech(tech.name)}
-                  onMouseLeave={() => setHoveredTech(null)}
-                  style={{ 
-                    animationDelay: `${index * 50}ms`,
-                    animationFillMode: 'both' 
-                  }}
-                >
-                  {/* Item Glow */}
-                  <div className="absolute inset-0 opacity-0 group-hover/item:opacity-20 transition-opacity duration-500 rounded-lg bg-theme-2 blur-xl" />
-                  
-                  <img
-                    src={tech.src}
-                    alt={tech.name}
-                    className="w-10 h-10 md:w-12 md:h-12 object-contain transition-all duration-500 group-hover/item:brightness-110 scale-90 group-hover/item:scale-110 z-10"
-                  />
-                  
-                  {/* Index overlay */}
-                  <span className="absolute top-1 left-1.5 text-[8px] font-code text-white/20 group-hover/item:text-theme-2/60 transition-colors">
-                    0{index + 1}
-                  </span>
+          <ul className="flex flex-col gap-6">
+            {CAPABILITIES.map(({ icon: Icon, title, body }) => (
+              <li
+                key={title}
+                className="group rounded-xl border border-white/10 bg-secondary/5 backdrop-blur-sm p-6 md:p-7 transition-colors hover:border-primary/25 hover:bg-secondary/10"
+              >
+                <div className="flex gap-4">
+                  <div className="shrink-0 w-11 h-11 rounded-lg border border-white/10 bg-white/[0.04] flex items-center justify-center text-primary">
+                    <Icon className="w-5 h-5" strokeWidth={1.5} />
+                  </div>
+                  <div>
+                    <h3 className="font-logo text-lg md:text-xl uppercase tracking-wide mb-2">{title}</h3>
+                    <p className="text-sm md:text-[15px] text-muted-foreground leading-relaxed">{body}</p>
+                  </div>
                 </div>
-              ))}
-            </div>
-
-            {/* Tech Name Display Area */}
-            <div className="mt-12 h-12 flex items-center justify-center border-t border-white/10 pt-8">
-              <div className="text-center">
-                {hoveredTech ? (
-                  <DecryptText 
-                    key={hoveredTech}
-                    text={hoveredTech} 
-                    animateOnMount={true}
-                    className="text-2xl md:text-3xl font-code uppercase tracking-widest text-theme-2" 
-                  />
-                ) : (
-                  <span className="text-xs font-code uppercase tracking-[0.3em] text-white/30 animate-pulse">
-                    Hover icons to identify
-                  </span>
-                )}
-              </div>
-            </div>
-          </div>
-          
-          {/* Subtitle/Data footer */}
-          <div className="mt-6 flex flex-wrap justify-between items-center px-4 opacity-50 font-code text-[10px] uppercase tracking-wider">
-            <span>Terminal: Online</span>
-            <span>Stack Version: 2.0.4</span>
-            <div className="flex gap-4">
-              <span className="flex items-center gap-1"><span className="w-1 h-1 bg-green-500 rounded-full animate-pulse" /> Low Latency</span>
-              <span className="flex items-center gap-1"><span className="w-1 h-1 bg-blue-500 rounded-full animate-pulse" /> Edge Ready</span>
-            </div>
-          </div>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
-
-      <style jsx global>{`
-        @keyframes scan {
-          0% { transform: translateY(-100%); opacity: 0; }
-          10% { opacity: 1; }
-          90% { opacity: 1; }
-          100% { transform: translateY(1000%); opacity: 0; }
-        }
-        .animate-scan {
-          animation: scan 8s linear infinite;
-        }
-      `}</style>
     </section>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { Github, Twitter, Linkedin, Send } from 'lucide-react';
+import { Github, Twitter, Linkedin, Send, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -9,8 +9,11 @@ import DecryptText from './decrypt-text';
 import { useState, useEffect } from 'react';
 import { ref, push, onValue } from 'firebase/database';
 import { db } from '@/lib/firebase';
+import { getWhatsAppHref } from '@/lib/contact';
 
 export default function Footer() {
+  const whatsappHref = getWhatsAppHref();
+
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -22,7 +25,7 @@ export default function Footer() {
     contactHeading: 'Get In Touch',
     contactText: "Have a project in mind or just want to say hello? We'd love to hear from you. Fill out the form and we'll get back to you as soon as possible.",
     col1Header: 'Global Delivery',
-    col1Text: 'USA • Canada • Europe • South Africa • Zimbabwe',
+    col1Text: 'Distributed engineering across North America, Europe, Africa & Asia — timezone-friendly collaboration.',
     col2Header: 'Core Services',
     col2Text: 'Custom Software • Mobile Apps • Web Design • Cloud Solutions',
     companyName: 'SKYRISE',
@@ -68,7 +71,7 @@ export default function Footer() {
   };
 
   return (
-    <footer id="contact" className="w-full pt-24 pb-8 border-t border-white/5">
+    <footer id="contact" className="scroll-mt-28 w-full pt-24 pb-8 border-t border-white/5">
       <div className="container mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-16">
           <div>
@@ -104,11 +107,26 @@ export default function Footer() {
             {errorMsg && (
               <div className="text-red-500 text-sm mt-2">{errorMsg}</div>
             )}
-            <Button type="submit" disabled={loading} className="w-full font-code uppercase tracking-wider">
-              {loading ? 'Sending...' : success ? 'Message Sent!' : (
-                <>Send Message <Send className="ml-2" /></>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Button type="submit" disabled={loading} className="w-full font-code uppercase tracking-wider flex-1">
+                {loading ? 'Sending...' : success ? 'Message Sent!' : (
+                  <>Send Message <Send className="ml-2" /></>
+                )}
+              </Button>
+              {whatsappHref && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full sm:w-auto font-code uppercase tracking-wider border-emerald-500/35 text-emerald-400 hover:bg-emerald-500/10 hover:text-emerald-300"
+                  asChild
+                >
+                  <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
+                    <MessageCircle className="mr-2 h-4 w-4" />
+                    WhatsApp
+                  </a>
+                </Button>
               )}
-            </Button>
+            </div>
           </form>
         </div>
         

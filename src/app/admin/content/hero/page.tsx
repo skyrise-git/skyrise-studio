@@ -17,9 +17,9 @@ export default function HeroContentPage() {
     title: 'SKYRISE',
     subtitle: 'We are a premier Software Dev Team providing scalable software solutions...',
     btn1Text: 'Explore Dossiers',
-    btn1Url: '#projects',
+    btn1Url: '/#projects',
     btn2Text: 'Initiate Contact',
-    btn2Url: '#contact',
+    btn2Url: '/#contact',
   });
 
   useEffect(() => {

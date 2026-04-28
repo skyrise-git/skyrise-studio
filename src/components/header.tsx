@@ -8,6 +8,14 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import DecryptText from './decrypt-text';
 import { cn } from '@/lib/utils';
 
+/** Root-absolute paths so anchors work from nested routes (e.g. /zw), not /zw#section */
+const NAV_LINKS = [
+  { href: '/#projects', label: 'Projects' },
+  { href: '/#skills', label: 'Skills' },
+  { href: '/#global', label: 'Global' },
+  { href: '/how-it-works', label: 'How It Works' },
+] as const;
+
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -19,12 +27,6 @@ export default function Header() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const navLinks = [
-    { href: '#projects', label: 'Projects' },
-    { href: '#skills', label: 'Skills' },
-    { href: '#global', label: 'Global' },
-  ];
 
   const NavLink = ({ href, label }: { href: string; label: string }) => (
     <Link
@@ -51,17 +53,17 @@ export default function Header() {
           </h1>
         </Link>
         
-        <nav className="hidden md:flex items-center gap-8">
-          {navLinks.map(link => <NavLink key={link.href} {...link} />)}
+        <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
+          {NAV_LINKS.map(link => <NavLink key={link.href} {...link} />)}
         </nav>
 
-        <div className="hidden md:flex">
+        <div className="hidden lg:flex">
           <Button asChild variant="outline" className="font-code uppercase tracking-wider">
-            <Link href="#contact">Contact</Link>
+            <Link href="/#contact">Contact</Link>
           </Button>
         </div>
 
-        <div className="md:hidden">
+        <div className="lg:hidden">
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
@@ -77,10 +79,10 @@ export default function Header() {
                     </h1>
                 </Link>
                 <nav className="flex flex-col items-start gap-8 mb-12">
-                   {navLinks.map(link => <NavLink key={link.href} {...link} />)}
+                   {NAV_LINKS.map(link => <NavLink key={link.href} {...link} />)}
                 </nav>
                 <Button asChild variant="outline" className="font-code uppercase tracking-wider mt-auto">
-                    <Link href="#contact" onClick={() => setOpen(false)}>Contact</Link>
+                    <Link href="/#contact" onClick={() => setOpen(false)}>Contact</Link>
                 </Button>
               </div>
             </SheetContent>

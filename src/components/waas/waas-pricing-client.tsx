@@ -105,45 +105,18 @@ export default function WaasPricingClient({ country }: WaasPricingClientProps) {
             </strong>{" "}
             and own your site outright whenever you&apos;re ready.
           </p>
-        </section>
-
-        {/* How it works */}
-        <section className="container mx-auto px-4 md:px-8 max-w-6xl py-14 md:py-16 border-b border-white/5 grid md:grid-cols-[220px_1fr] gap-10 md:gap-16">
-          <p className="font-logo text-xs font-bold uppercase tracking-[0.16em] text-muted-foreground pt-1">
-            How It Works
+          <p className="mt-8">
+            <Button asChild variant="outline" className="font-code uppercase tracking-wider">
+              <Link href="/how-it-works">How WaaS works</Link>
+            </Button>
           </p>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
-            {[
-              {
-                num: "01",
-                title: "Pick Your Plan",
-                body: "Choose a package matched to your market and business stage — from first website to full e-commerce.",
-              },
-              {
-                num: "02",
-                title: "Subscribe or Own",
-                body: "Stay on a low monthly subscription with maintenance included, or pay once for immediate full ownership.",
-              },
-              {
-                num: "03",
-                title: "We Handle the Rest",
-                body: "Hosting, updates, and security are covered. Focus on running your business — we keep it online and performing.",
-              },
-            ].map((step) => (
-              <div key={step.num} className="border-t-2 border-foreground pt-4">
-                <p className="font-logo text-[10px] font-bold tracking-[0.14em] text-muted-foreground mb-2">{step.num}</p>
-                <h3 className="font-logo text-sm md:text-base font-bold uppercase tracking-wide mb-2">{step.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{step.body}</p>
-              </div>
-            ))}
-          </div>
         </section>
 
         {/* Region content */}
         <div className="pb-6">
           <div className="container mx-auto px-4 md:px-8 max-w-6xl pt-10 md:pt-11">
-            <h2 className="text-2xl md:text-3xl font-logo uppercase tracking-wide mb-1.5">{region.name}</h2>
-            <p className="text-sm text-muted-foreground max-w-lg leading-relaxed">{region.description}</p>
+            <p className="font-code text-xs uppercase tracking-[0.18em] text-primary mb-3">Plans &amp; pricing</p>
+            <p className="text-sm text-muted-foreground max-w-2xl leading-relaxed">{region.description}</p>
           </div>
 
           <div className="container mx-auto px-4 md:px-8 max-w-6xl grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 pt-8">

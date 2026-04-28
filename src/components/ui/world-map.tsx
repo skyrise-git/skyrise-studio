@@ -198,9 +198,18 @@ export default function WorldMap({
           <div className="text-[10px] text-primary font-bold uppercase tracking-tighter">
             {hoveredIndex !== null ? (
               <motion.div initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }}>
-                Link Established: {dots[hoveredIndex].start.label} <span className="text-white/40 mx-1">→</span> {dots[hoveredIndex].end.label}
+                {dots[hoveredIndex].start.label && dots[hoveredIndex].end.label ? (
+                  <>
+                    Link Established: {dots[hoveredIndex].start.label}{" "}
+                    <span className="text-white/40 mx-1">→</span> {dots[hoveredIndex].end.label}
+                  </>
+                ) : (
+                  <>Route segment {hoveredIndex + 1} · active</>
+                )}
               </motion.div>
-            ) : "Scan connections for node data"}
+            ) : (
+              "Scan connections for route data"
+            )}
           </div>
         </div>
       </div>

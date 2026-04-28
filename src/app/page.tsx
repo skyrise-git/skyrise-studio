@@ -55,15 +55,15 @@ export default function Home() {
       <main className="flex-grow z-10">
         <HeroSection scrollY={scrollY} />
         <div className="space-y-48 md:space-y-64 py-24 md:py-32 overflow-hidden">
-          <section id="projects">
+          <section id="projects" className="scroll-mt-28">
             <FeaturedWork />
           </section>
 
-          <section id="skills">
+          <section id="skills" className="scroll-mt-28">
             <TechStack />
           </section>
 
-          <section id="global" className="container mx-auto px-4">
+          <section id="global" className="scroll-mt-28 container mx-auto px-4">
             <div className="text-center mb-16">
               <h2 className="text-5xl md:text-7xl font-logo uppercase">{globalContent.headline} <span className="text-theme-2 italic">{globalContent.headlineHighlight}</span></h2>
               <p className="text-muted-foreground font-body mt-2 max-w-2xl mx-auto">
@@ -74,34 +74,13 @@ export default function Home() {
               <WorldMap
                 lineColor="#ffffff"
                 dots={[
-                  {
-                    start: { lat: 34.0522, lng: -118.2437, label: "Los Angeles" }, // Los Angeles, CA
-                    end: { lat: 40.7128, lng: -74.0060, label: "New York" }, // New York, NY
-                  },
-                  {
-                    start: { lat: 40.7128, lng: -74.0060, label: "New York" },
-                    end: { lat: 43.6532, lng: -79.3832, label: "Toronto" }, // Toronto, Canada
-                  },
-                  {
-                    start: { lat: 43.6532, lng: -79.3832, label: "Toronto" },
-                    end: { lat: 51.5074, lng: -0.1278, label: "London" }, // London, UK
-                  },
-                  {
-                    start: { lat: 51.5074, lng: -0.1278, label: "London" },
-                    end: { lat: 48.8566, lng: 2.3522, label: "Paris" }, // Paris, France
-                  },
-                  {
-                    start: { lat: 48.8566, lng: 2.3522, label: "Paris" },
-                    end: { lat: -26.2041, lng: 28.0473, label: "Johannesburg" }, // Johannesburg, SA
-                  },
-                  {
-                    start: { lat: -26.2041, lng: 28.0473, label: "Johannesburg" },
-                    end: { lat: -17.8216, lng: 31.0492, label: "Harare" }, // Harare, Zimbabwe
-                  },
-                  {
-                    start: { lat: -17.8216, lng: 31.0492, label: "Harare" },
-                    end: { lat: 28.6139, lng: 77.2090, label: "New Delhi" }, // New Delhi, India
-                  },
+                  { start: { lat: 34.0522, lng: -118.2437 }, end: { lat: 40.7128, lng: -74.006 } },
+                  { start: { lat: 40.7128, lng: -74.006 }, end: { lat: 43.6532, lng: -79.3832 } },
+                  { start: { lat: 43.6532, lng: -79.3832 }, end: { lat: 51.5074, lng: -0.1278 } },
+                  { start: { lat: 51.5074, lng: -0.1278 }, end: { lat: 48.8566, lng: 2.3522 } },
+                  { start: { lat: 48.8566, lng: 2.3522 }, end: { lat: -26.2041, lng: 28.0473 } },
+                  { start: { lat: -26.2041, lng: 28.0473 }, end: { lat: -17.8216, lng: 31.0492 } },
+                  { start: { lat: -17.8216, lng: 31.0492 }, end: { lat: 28.6139, lng: 77.209 } },
                 ]}
               />
             </div>

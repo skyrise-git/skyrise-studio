@@ -14,10 +14,11 @@ export default function TechStackContentPage() {
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
   const [data, setData] = useState({
-    tag: 'System Capabilities',
-    headline: 'Our',
-    headlineHighlight: 'Arsenal',
-    description: 'Engineered with precision testing and high-performance frameworks to build the future of digital experiences.',
+    tag: 'Engineering scope',
+    headline: 'Software,',
+    headlineHighlight: 'ships & models',
+    description:
+      'We build serious products: distributed backends, mobile clients, and AI that fits your workflow — not a logo grid of libraries.',
   });
 
   useEffect(() => {
@@ -42,14 +43,14 @@ export default function TechStackContentPage() {
     try {
       await set(ref(db, 'content/techStack'), data);
       toast({
-        title: "Tech Stack Updated",
-        description: "Your system capabilities have been updated.",
+        title: "Section updated",
+        description: "Engineering capabilities copy has been saved.",
       });
     } catch (err: any) {
       console.error("Error saving content:", err);
       toast({
         title: "Update Failed",
-        description: "Failed to update tech stack section.",
+        description: "Failed to update engineering section.",
         variant: "destructive",
       });
     } finally {
@@ -70,8 +71,8 @@ export default function TechStackContentPage() {
           <Cpu className="w-6 h-6" />
         </div>
         <div>
-          <h1 className="text-2xl font-logo uppercase">Tech Stack Edit</h1>
-          <p className="text-muted-foreground font-code text-sm">Update the system capabilities section</p>
+          <h1 className="text-2xl font-logo uppercase">Engineering section</h1>
+          <p className="text-muted-foreground font-code text-sm">Copy for software, mobile & AI capabilities (home page)</p>
         </div>
       </div>
 

@@ -28,7 +28,7 @@ const adminMenu = [
 const contentMenu = [
   { title: "Hero Section", url: "/admin/content/hero" },
   { title: "Global Presence", url: "/admin/content/global" },
-  { title: "Tech Stack & Skills", url: "/admin/content/tech-stack" },
+  { title: "Engineering / capabilities", url: "/admin/content/tech-stack" },
   { title: "Footer", url: "/admin/content/footer" },
 ];
 

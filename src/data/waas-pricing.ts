@@ -42,7 +42,7 @@ export const WAAS_REGIONS: Record<CountryCode, RegionPricing> = {
     name: 'South Africa',
     accentHex: '#1a6ee8',
     description:
-      "Four tiers built around South Africa's diverse business landscape — plus a fully bespoke option for complex needs.",
+      "Four tiers tuned to local markets — from first website to full e-commerce — plus a bespoke option when off-the-shelf is not enough.",
     packages: [
       {
         badge: 'sub',
@@ -140,7 +140,7 @@ export const WAAS_REGIONS: Record<CountryCode, RegionPricing> = {
     name: 'Zimbabwe',
     accentHex: '#2a9e5f',
     description:
-      "Mobile-first, data-light builds designed for Zimbabwe's connectivity realities and fast-growing digital economy.",
+      "Mobile-first, data-light builds aligned with real-world connectivity — engineered for businesses scaling online without bloat.",
     packages: [
       {
         badge: 'sub',
@@ -220,7 +220,7 @@ export const WAAS_REGIONS: Record<CountryCode, RegionPricing> = {
       titleLine1: 'A platform built',
       titleEmphasis: 'exactly for your business.',
       description:
-        'For corporates, banks, telecoms, NGOs, and government-adjacent organisations operating in Zimbabwe. We build bespoke digital platforms with local payment rails, offline capability, and multi-branch architecture — scoped and priced to your specific needs.',
+        'For corporates, banks, telecoms, NGOs, and government-adjacent organisations that need deep local integration. We build bespoke digital platforms with regional payment rails, offline capability, and multi-branch architecture — scoped and priced to your specific needs.',
       pills: [
         'Custom platform architecture',
         'Multi-branch / multi-location',

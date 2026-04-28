@@ -17,9 +17,9 @@ export default function HeroSection({ scrollY }: HeroSectionProps) {
     title: 'SKYRISE',
     subtitle: 'We are a premier Software Dev Team providing scalable software solutions. Leveraging Next.js, Node, React, Python, Rust, Go, and Flutter to build high-performance web, mobile, and desktop applications with robust backend APIs.',
     btn1Text: 'Explore Dossiers',
-    btn1Url: '#projects',
+    btn1Url: '/#projects',
     btn2Text: 'Initiate Contact',
-    btn2Url: '#contact',
+    btn2Url: '/#contact',
   });
 
   useEffect(() => {
