@@ -18,7 +18,7 @@ export default function TechStackContentPage() {
     headline: 'Software,',
     headlineHighlight: 'ships & models',
     description:
-      'We build serious products: distributed backends, mobile clients, and AI that fits your workflow — not a logo grid of libraries.',
+      'We build serious products: distributed backends, mobile clients, and AI that fits your workflow.',
   });
 
   useEffect(() => {

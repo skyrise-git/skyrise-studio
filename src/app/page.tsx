@@ -7,6 +7,7 @@ import TechStack from '@/components/tech-stack';
 import FeaturedWork from '@/components/featured-work';
 import Footer from '@/components/footer';
 import WorldMap from "@/components/ui/world-map";
+import WhatsAppFloat from "@/components/whatsapp-float";
 import { db } from '@/lib/firebase';
 import { ref, onValue } from 'firebase/database';
 
@@ -88,6 +89,7 @@ export default function Home() {
         </div>
         <Footer />
       </main>
+      <WhatsAppFloat />
     </div>
   );
 }

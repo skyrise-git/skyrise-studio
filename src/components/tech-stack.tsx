@@ -1,10 +1,14 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { db } from "@/lib/firebase";
 import { ref, onValue } from "firebase/database";
 import { Bot, Cpu, Smartphone } from "lucide-react";
+
+/** Stock photo (Unsplash): human–robot collaboration / engineering workspace */
+const ROBOT_IMAGE_SRC = "/images/engineering-robot.jpg";
 
 const CAPABILITIES = [
   {
@@ -24,67 +28,33 @@ const CAPABILITIES = [
   },
 ] as const;
 
-function RoboticsIllustration({ className }: { className?: string }) {
+function RoboticsPhoto({ className }: { className?: string }) {
   return (
-    <div
+    <figure
       className={cn(
-        "relative aspect-square max-w-md mx-auto md:mx-0 rounded-2xl border border-white/10 bg-gradient-to-br from-zinc-950/80 to-zinc-900/40 overflow-hidden",
+        "relative w-full max-w-md mx-auto md:mx-0 overflow-hidden rounded-2xl border border-white/10 bg-zinc-950 shadow-lg shadow-black/20",
         className
       )}
     >
-      <div
-        className="absolute inset-0 opacity-[0.06]"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(127,0,13,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(127,0,13,0.35) 1px, transparent 1px)",
-          backgroundSize: "24px 24px",
-        }}
-      />
-      <svg
-        viewBox="0 0 400 400"
-        className="relative w-full h-full text-primary p-8 md:p-10"
-        aria-hidden
-      >
-        <defs>
-          <linearGradient id="cap-glow" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="rgb(127 0 13)" stopOpacity="0.9" />
-            <stop offset="100%" stopColor="rgb(224 224 224)" stopOpacity="0.15" />
-          </linearGradient>
-        </defs>
-        {/* Abstract chassis */}
-        <path
-          d="M120 280 L120 140 Q120 100 160 100 L240 100 Q280 100 280 140 L280 280"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          className="opacity-90"
+      <div className="relative aspect-[3/2] w-full">
+        <Image
+          src={ROBOT_IMAGE_SRC}
+          alt="Robotic equipment and engineering workspace"
+          fill
+          className="object-cover"
+          sizes="(max-width: 1024px) 100vw, 28rem"
+          priority={false}
         />
-        <rect x="155" y="115" width="90" height="70" rx="8" fill="none" stroke="currentColor" strokeWidth="1.5" className="opacity-70" />
-        <circle cx="200" cy="148" r="14" fill="none" stroke="url(#cap-glow)" strokeWidth="2" className="animate-pulse" />
-        {/* Arms */}
-        <path d="M120 175 L85 195 L70 250" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="opacity-60" />
-        <path d="M280 175 L315 195 L330 250" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="opacity-60" />
-        {/* Joint nodes */}
-        {[
-          [120, 175],
-          [280, 175],
-          [160, 260],
-          [240, 260],
-        ].map(([x, y], i) => (
-          <circle key={i} cx={x} cy={y} r="5" fill="currentColor" className="opacity-80" />
-        ))}
-        {/* Base */}
-        <ellipse cx="200" cy="295" rx="95" ry="22" fill="none" stroke="currentColor" strokeWidth="1.5" className="opacity-40" />
-        <path d="M130 280 L170 315 L230 315 L270 280" fill="none" stroke="currentColor" strokeWidth="2" className="opacity-50" />
-        {/* Circuit accents */}
-        <path d="M60 90 H340 M90 60 V120 M310 60 V120" stroke="currentColor" strokeWidth="0.75" className="opacity-25" />
-        <circle cx="90" cy="90" r="3" fill="currentColor" className="opacity-40" />
-        <circle cx="310" cy="90" r="3" fill="currentColor" className="opacity-40" />
-      </svg>
-      <p className="absolute bottom-4 left-4 right-4 text-center font-code text-[9px] uppercase tracking-[0.35em] text-white/35">
-        Systems · Interfaces · Intelligence
-      </p>
-    </div>
+        <div
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent"
+          aria-hidden
+        />
+      </div>
+      <figcaption className="absolute bottom-0 left-0 right-0 px-4 py-3 text-center font-code text-[9px] uppercase tracking-[0.25em] text-white/45">
+        <span className="block">Systems · Interfaces · Intelligence</span>
+        <span className="mt-1 block normal-case tracking-normal text-white/30">Stock photo · Unsplash</span>
+      </figcaption>
+    </figure>
   );
 }
 
@@ -94,7 +64,7 @@ export default function TechStack() {
     headline: "Software,",
     headlineHighlight: "ships & models",
     description:
-      "We build serious products: distributed backends, mobile clients, and AI that fits your workflow — not a logo grid of libraries.",
+      "We build serious products: distributed backends, mobile clients, and AI that fits your workflow.",
   });
 
   useEffect(() => {
@@ -137,7 +107,7 @@ export default function TechStack() {
         </div>
 
         <div className="grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)] gap-12 lg:gap-16 items-center">
-          <RoboticsIllustration />
+          <RoboticsPhoto />
 
           <ul className="flex flex-col gap-6">
             {CAPABILITIES.map(({ icon: Icon, title, body }) => (
