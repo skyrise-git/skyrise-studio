@@ -14,6 +14,7 @@ const NAV_LINKS = [
   { href: '/#skills', label: 'Skills' },
   { href: '/#global', label: 'Global' },
   { href: '/how-it-works', label: 'How It Works' },
+  { href: '/support', label: 'Support' },
 ] as const;
 
 export default function Header() {

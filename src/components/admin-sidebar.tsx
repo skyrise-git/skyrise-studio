@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, MessageSquare, PlusSquare, LogOut, Home } from "lucide-react";
+import { LayoutDashboard, MessageSquare, PlusSquare, LogOut, Home, LifeBuoy } from "lucide-react";
 import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
@@ -22,6 +22,7 @@ import {
 
 const adminMenu = [
   { title: "Dashboard / Messages", url: "/admin", icon: MessageSquare },
+  { title: "Client support portal", url: "/admin/support", icon: LifeBuoy },
   { title: "Manage Projects", url: "/admin/projects", icon: LayoutDashboard },
 ];
 
