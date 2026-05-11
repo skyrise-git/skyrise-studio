@@ -15,11 +15,11 @@ export default function HeroContentPage() {
   const { toast } = useToast();
   const [data, setData] = useState({
     title: 'SKYRISE',
-    subtitle: 'A senior engineering studio building marketplaces, AI workflows, and custom platforms — from first prototype to production.',
-    btn1Text: 'Get In Touch',
-    btn1Url: '/#contact',
-    btn2Text: 'Explore Projects',
-    btn2Url: '/#work',
+    subtitle: 'We are a premier Software Dev Team providing scalable software solutions...',
+    btn1Text: 'Explore Dossiers',
+    btn1Url: '/#projects',
+    btn2Text: 'Initiate Contact',
+    btn2Url: '/#contact',
   });
 
   useEffect(() => {
