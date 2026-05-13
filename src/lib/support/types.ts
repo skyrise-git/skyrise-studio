@@ -25,6 +25,8 @@ export type SupportTicket = {
   createdAt: string;
   updatedAt: string;
   resolvedAt?: string;
+  /** Name / initials of the staff member this ticket is assigned to */
+  assignedTo?: string;
   /** Staff-facing ETA or status update visible to client */
   timelineNote?: string;
   escalated?: boolean;
