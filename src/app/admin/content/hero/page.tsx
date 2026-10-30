@@ -14,11 +14,11 @@ export default function HeroContentPage() {
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
   const [data, setData] = useState({
-    title: 'Websites that earn trust. Digital products that move businesses forward.',
-    subtitle: 'From high-performing business websites to powerful digital platforms and bespoke applications, we design and build technology that helps you grow.',
-    btn1Text: 'Explore our work',
+    title: 'Websites that impress. Platforms that perform.',
+    subtitle: 'We design, develop and support business websites, e-commerce experiences and custom software that help ambitious businesses stand out and grow.',
+    btn1Text: 'See what we have built',
     btn1Url: '/#projects',
-    btn2Text: 'View website pricing',
+    btn2Text: 'Explore website pricing',
     btn2Url: '/#pricing',
   });
 

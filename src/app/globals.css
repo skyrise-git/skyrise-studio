@@ -48,3 +48,37 @@
 .admin-shell .bg-white\/5,.admin-shell .bg-white\/10 { background-color: #f1f5f9 !important; }
 .admin-shell .bg-black\/60 .bg-white\/10 { background-color: rgb(255 255 255 / 15%) !important; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+
+/* The hero's single authored motion treatment: a hovering product-architecture panel. */
+.hero-stage-wash {
+  background:
+    radial-gradient(ellipse 35% 65% at 85% 40%, rgba(143, 192, 229, .21), transparent 76%),
+    radial-gradient(ellipse 50% 50% at 0% 0%, rgba(255, 255, 255, .95), transparent 78%);
+}
+.hero-architecture {
+  opacity: .86;
+  -webkit-mask-image: radial-gradient(ellipse 69% 67% at 55% 45%, #000 48%, transparent 100%);
+  mask-image: radial-gradient(ellipse 69% 67% at 55% 45%, #000 48%, transparent 100%);
+}
+.hero-feature-panel {
+  transform: translate3d(0, 0, 0) rotate(1.4deg);
+  transform-origin: 60% 30%;
+  animation: skyrise-panel-arrival 750ms cubic-bezier(.16,1,.3,1) both;
+}
+.hero-feature-panel:hover { transform: translate3d(0, -5px, 0) rotate(0deg); }
+@keyframes skyrise-panel-arrival {
+  from { opacity: .86; transform: translate3d(0, 17px, 0) rotate(2.1deg); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0) rotate(1.4deg); }
+}
+@media (max-width: 767px) {
+  .hero-architecture { display: none; }
+  .hero-feature-panel { transform: none; animation: none; }
+  .hero-feature-panel:hover { transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-feature-panel { animation: none; transform: none; }
+  .hero-feature-panel:hover { transform: none; }
+  .hero-architecture { opacity: .55; }
+}
+:focus-visible { outline-offset: 3px; }
