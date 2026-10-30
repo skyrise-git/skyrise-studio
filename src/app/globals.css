@@ -1,101 +1,50 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* 
- * FONT REFERENCE: Bank Gothic Medium
- * To use this font, please provide the font files in public/fonts/ and uncomment the following:
- *
- * @font-face {
- *   font-family: 'Bank Gothic Medium';
- *   src: url('/fonts/bank-gothic-medium.woff2') format('woff2');
- *   font-weight: 500;
- *   font-style: normal;
- * }
- */
-
 @layer base {
   :root {
-    --background: 0 0% 2%; /* #050505 */
-    --foreground: 0 0% 88%; /* #E0E0E0 */
-    --card: 0 0% 2%;
-    --card-foreground: 0 0% 88%;
-    --popover: 0 0% 2%;
-    --popover-foreground: 0 0% 88%;
-    /* Main Theme Primary: #8b0b25 */
-    --primary: 348 86% 29%; 
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 29%; /* #4a4a4a */
-    --secondary-foreground: 0 0% 88%;
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 55%;
-    /* Accent derived from #8c0646 */
-    --accent: 331 92% 29%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 15%;
-    --input: 0 0% 15%;
-    --ring: 348 86% 29%;
-    --radius: 0.5rem;
-
-    /* Theme Palette */
-    --theme-1: 338 86% 31%; /* #930b3c */
-    --theme-2: 348 86% 29%; /* #8b0b25 */
-    --theme-3: 342 69% 28%; /* #791634 */
-    --theme-4: 331 92% 29%; /* #8c0646 */
-    --theme-5: 342 86% 30%; /* #8d0b2f */
+    color-scheme: light;
+    --background: 0 0% 100%; --foreground: 222 28% 13%;
+    --card: 0 0% 100%; --card-foreground: 222 28% 13%;
+    --popover: 0 0% 100%; --popover-foreground: 222 28% 13%;
+    --primary: 215 52% 23%; --primary-foreground: 0 0% 100%;
+    --secondary: 210 20% 96%; --secondary-foreground: 222 28% 20%;
+    --muted: 210 20% 96%; --muted-foreground: 215 13% 42%;
+    --accent: 210 40% 94%; --accent-foreground: 215 52% 23%;
+    --destructive: 0 70% 44%; --destructive-foreground: 0 0% 100%;
+    --border: 214 19% 87%; --input: 214 19% 87%; --ring: 215 52% 23%;
+    --radius: .75rem;
+    --theme-1: 215 52% 23%; --theme-2: 211 65% 43%; --theme-3: 218 29% 45%;
+    --theme-4: 212 40% 57%; --theme-5: 210 35% 92%;
+    --sidebar-background: 210 20% 98%; --sidebar-foreground: 222 28% 13%;
+    --sidebar-primary: 215 52% 23%; --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 35% 92%; --sidebar-accent-foreground: 215 52% 23%;
+    --sidebar-border: 214 19% 87%; --sidebar-ring: 215 52% 23%;
   }
+  * { @apply border-border; }
+  html { scroll-behavior: smooth; }
+  body { @apply bg-background text-foreground antialiased font-body; }
+  h1,h2,h3,h4,h5,h6 { @apply font-headline tracking-tight; }
+  ::selection { background: #d8e8f6; color: #172c44; }
 }
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground font-body antialiased;
-  }
-  body::after {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 300'%3e%3cfilter id='n'%3e%3cfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='10' stitchTiles='stitch'/%3e%3c/filter%3e%3crect width='100%25' height='100%25' filter='url(%23n)'/%3e%3c/svg%3e");
-    opacity: 0.03;
-    pointer-events: none;
-    z-index: -10;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-headline font-normal not-italic uppercase tracking-wider;
-  }
-
-  strong,
-  b {
-    @apply font-normal;
-  }
-
-  em,
-  i {
-    @apply not-italic;
-  }
-}
-
 @layer utilities {
-  /* Neutralize Tailwind `italic` utility site-wide */
-  .italic {
-    font-style: normal !important;
-  }
-
-  .text-balance {
-    text-wrap: balance;
-  }
-  .animation-delay-2000 {
-    animation-delay: 2s;
-  }
-  .animation-delay-4000 {
-    animation-delay: 4s;
-  }
+  .section-eyebrow { @apply text-xs font-semibold tracking-[.15em] uppercase text-theme-2; }
+  .section-heading { @apply text-4xl md:text-5xl lg:text-6xl leading-[1.1] font-semibold tracking-tight text-foreground; }
+  .section-lead { @apply text-base md:text-lg leading-relaxed text-muted-foreground; }
+  .surface-card { @apply bg-white border border-border rounded-2xl shadow-[0_8px_30px_rgba(17,37,59,.04)]; }
+  .text-balance { text-wrap: balance; }
 }
+/* Existing admin editors retain all database operations, with light-theme compatibility. */
+.admin-shell .border-white\/5,.admin-shell .border-white\/10,.admin-shell .border-white\/15,
+.admin-shell .border-white\/20,.admin-shell .border-white\/30 { border-color: hsl(var(--border)) !important; }
+.admin-shell .text-white,.admin-shell .text-zinc-100,.admin-shell .text-zinc-200 { color: hsl(var(--foreground)) !important; }
+.admin-shell .bg-zinc-950,.admin-shell .bg-\[\#050505\] { background: white !important; }
+.admin-shell .bg-secondary\/5,.admin-shell .bg-secondary\/10 { background: white !important; }
+.admin-shell .shadow-xl,.admin-shell .shadow-2xl { box-shadow: 0 8px 32px rgb(20 39 60 / 5%) !important; }
+.admin-shell input,.admin-shell textarea,.admin-shell select { background: white !important; color: hsl(var(--foreground)) !important; border-color: hsl(var(--input)) !important; }
+.admin-shell label { color: hsl(var(--foreground)) !important; }
+.admin-shell .text-white\/30,.admin-shell .text-white\/50,.admin-shell .text-white\/60,.admin-shell .text-white\/70,.admin-shell .text-white\/80 { color: hsl(var(--muted-foreground)) !important; }
+.admin-shell .bg-black\/60 .text-white,.admin-shell .bg-black\/60 .text-white\/60 { color: #fff !important; }
+.admin-shell .bg-white\/5,.admin-shell .bg-white\/10 { background-color: #f1f5f9 !important; }
+.admin-shell .bg-black\/60 .bg-white\/10 { background-color: rgb(255 255 255 / 15%) !important; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }

@@ -1,93 +1,39 @@
-"use client";
-
-import React, { useState, useEffect } from 'react';
+'use client';
+import {useEffect,useState} from 'react';
+import Link from 'next/link';
+import {ArrowUpRight,Globe2,ShieldCheck,Sparkles} from 'lucide-react';
 import Header from '@/components/header';
 import HeroSection from '@/components/hero-section';
-import TechStack from '@/components/tech-stack';
 import FeaturedWork from '@/components/featured-work';
+import TechStack from '@/components/tech-stack';
+import PricingPreview from '@/components/pricing-preview';
 import Footer from '@/components/footer';
-import WorldMap from "@/components/ui/world-map";
 import { db } from '@/lib/firebase';
-import { ref, onValue } from 'firebase/database';
-
-export default function Home() {
-  const [scrollY, setScrollY] = useState(0);
-  const [globalContent, setGlobalContent] = useState({
-    headline: 'Global',
-    headlineHighlight: 'Presence',
-    description: 'From the USA and Canada to Europe, Africa, and Asia, we deliver high-performance engineering solutions worldwide.'
-  });
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    
-    // Fetch Global Content
-    const unsubGlobal = onValue(ref(db, 'content/global'), (snapshot) => {
-      if (snapshot.exists()) {
-        setGlobalContent(snapshot.val());
-      }
-    });
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      unsubGlobal();
-    };
-  }, []);
-
-  return (
-    <div className="relative flex flex-col min-h-screen bg-background text-foreground isolate">
-      <div className="fixed inset-0 w-full h-full pointer-events-none z-[-1]">
-        <div 
-          className="absolute top-[20vh] -left-[20vw] w-[80vw] h-[80vw] bg-primary/10 rounded-full mix-blend-screen"
-          style={{ transform: `translateY(${scrollY * 0.1}px)` }}
-        />
-        <div 
-          className="absolute bottom-[-40vh] -right-[20vw] w-[70vw] h-[70vw] bg-secondary/10 rounded-full mix-blend-screen"
-          style={{ transform: `translateY(${scrollY * 0.05}px)` }}
-        />
-      </div>
-
-      <Header />
-      <main className="flex-grow z-10">
-        <HeroSection scrollY={scrollY} />
-        <div className="space-y-48 md:space-y-64 py-24 md:py-32 overflow-hidden">
-          <section id="projects" className="scroll-mt-28">
-            <FeaturedWork />
-          </section>
-
-          <section id="skills" className="scroll-mt-28">
-            <TechStack />
-          </section>
-
-          <section id="global" className="scroll-mt-28 container mx-auto px-4">
-            <div className="text-center mb-16">
-              <h2 className="text-5xl md:text-7xl font-logo uppercase">{globalContent.headline} <span className="text-theme-2">{globalContent.headlineHighlight}</span></h2>
-              <p className="text-muted-foreground font-body mt-2 max-w-2xl mx-auto">
-                {globalContent.description}
-              </p>
-            </div>
-            <div className="relative w-full max-w-5xl mx-auto rounded-3xl border border-white/5 bg-secondary/5 backdrop-blur-sm p-4 md:p-8">
-              <WorldMap
-                lineColor="#ffffff"
-                dots={[
-                  { start: { lat: 34.0522, lng: -118.2437 }, end: { lat: 40.7128, lng: -74.006 } },
-                  { start: { lat: 40.7128, lng: -74.006 }, end: { lat: 43.6532, lng: -79.3832 } },
-                  { start: { lat: 43.6532, lng: -79.3832 }, end: { lat: 51.5074, lng: -0.1278 } },
-                  { start: { lat: 51.5074, lng: -0.1278 }, end: { lat: 48.8566, lng: 2.3522 } },
-                  { start: { lat: 48.8566, lng: 2.3522 }, end: { lat: -26.2041, lng: 28.0473 } },
-                  { start: { lat: -26.2041, lng: 28.0473 }, end: { lat: -17.8216, lng: 31.0492 } },
-                  { start: { lat: -17.8216, lng: 31.0492 }, end: { lat: 28.6139, lng: 77.209 } },
-                ]}
-              />
-            </div>
-          </section>
+import {onValue,ref} from 'firebase/database';
+const values=[
+  {icon:ShieldCheck,title:'A partner you can rely on',text:'Thoughtful engineering, clear scope, and support after launch.'},
+  {icon:Sparkles,title:'Designed around your goals',text:'Customer-focused experiences, not one-size-fits-all templates.'},
+  {icon:Globe2,title:'Built to grow with you',text:'From an essential business site to a fully integrated digital platform.'},
+];
+export default function Home(){
+  const [global,setGlobal]=useState({headline:'Wherever business happens,',headlineHighlight:'we can build for it.',description:'We collaborate with customers across North America, Africa and beyond.'});
+  useEffect(()=>onValue(ref(db,'content/global'),snapshot=>{if(snapshot.exists())setGlobal(snapshot.val());}),[]);
+  return <div className="min-h-screen bg-background text-foreground">
+    <Header/><main><HeroSection/><FeaturedWork/>
+      <section className="border-y border-border bg-[#F8FAFC] py-16 md:py-20">
+        <div className="container grid md:grid-cols-3 gap-5">
+          {values.map(({icon:Icon,title,text})=><article key={title} className="p-6 bg-white border border-border rounded-xl">
+            <Icon className="h-6 w-6 text-theme-2 mb-5" strokeWidth={1.7}/><h3 className="text-lg font-semibold mb-2">{title}</h3><p className="text-muted-foreground text-sm leading-relaxed">{text}</p>
+          </article>)}
         </div>
-        <Footer />
-      </main>
-    </div>
-  );
+      </section>
+      <PricingPreview/><TechStack/>
+      <section id="global" className="scroll-mt-24 py-20 border-t border-border bg-[#F8FAFC]">
+        <div className="container flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+          <div><p className="section-eyebrow mb-4">Global perspective</p><h2 className="text-3xl md:text-4xl font-semibold tracking-tight max-w-2xl">{global.headline} <span className="text-theme-2">{global.headlineHighlight}</span></h2><p className="section-lead mt-4 max-w-2xl">{global.description}</p></div>
+          <Link href="/#contact" className="inline-flex items-center font-semibold text-primary gap-2 shrink-0">Work with us <ArrowUpRight size={18}/></Link>
+        </div>
+      </section>
+    </main><Footer/>
+  </div>;
 }
