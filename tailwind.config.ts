@@ -10,32 +10,21 @@ export default {
   theme: {
     container: {
       center: true,
-      padding: '2rem',
+      padding: '1.5rem',
       screens: {
         '2xl': '1400px',
       },
     },
     extend: {
       fontFamily: {
-        logo: ['Bank Gothic Medium', 'sans-serif'],
-        headline: ['Teko', 'sans-serif'],
-        body: ['Space Grotesk', 'sans-serif'],
-        code: ['JetBrains Mono', 'monospace'],
+        logo: ['Inter', 'sans-serif'], headline: ['Manrope', 'sans-serif'], body: ['Inter', 'sans-serif'], code: ['Inter', 'sans-serif'],
       },
       letterSpacing: {
         'wide': '.1em',
         'wider': '.2em',
         'widest': '.3em',
       },
-      /** Site uses no bold weight: map “strong” utilities to regular 400 */
-      fontWeight: {
-        medium: '400',
-        semibold: '400',
-        bold: '400',
-        extrabold: '400',
-        black: '400',
-      },
-      colors: {
+colors: {
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         theme: {
