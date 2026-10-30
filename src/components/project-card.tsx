@@ -1,60 +1,19 @@
-import type { ImagePlaceholder } from '@/lib/placeholder-images';
 import Image from 'next/image';
-import { cn } from '@/lib/utils';
-import { ArrowUpRight } from 'lucide-react';
-import Link from 'next/link';
-
-type ProjectCardProps = {
-  project: ImagePlaceholder;
-  className?: string;
-  height?: string;
-};
-
-export default function ProjectCard({ project, className, height = 'h-[400px]', onClick }: ProjectCardProps & { onClick?: () => void }) {
-  const Component = onClick ? 'div' : Link;
-  const props = onClick ? { onClick, role: 'button', tabIndex: 0 } : { href: '#' };
-
-  return (
-    // @ts-ignore
-    <Component {...props} className={cn(
-        "group relative block overflow-hidden rounded-xl border border-white/5 p-8 transition-all duration-500 cursor-pointer",
-        "bg-[#050505] shadow-2xl hover:border-primary/40",
-        height,
-        className
-      )}>
-      {/* Background Image Enhancement */}
-      <div className="absolute inset-0 bg-black/60 z-10 transition-colors duration-500 group-hover:bg-black/40" />
-      <Image
-        src={project.imageUrl}
-        alt={project.title}
-        fill
-        unoptimized
-        sizes="(max-width: 768px) 100vw, 50vw"
-        className="object-cover transition-transform duration-700 ease-out group-hover:scale-110 opacity-30 group-hover:opacity-60"
-        data-ai-hint={project.imageHint}
-      />
-      
-      {/* Main Content Bottom Aligned */}
-      <div className="relative z-20 flex flex-col justify-end items-start h-full max-w-2xl px-4 md:px-0">
-        <ArrowUpRight className="absolute top-0 right-0 h-8 w-8 text-white/30 transition-all duration-500 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-primary" />
-        
-        <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold font-logo tracking-widest text-primary uppercase leading-tight mb-4 transition-all duration-500 group-hover:scale-[1.02] origin-left">
-          {project.title}
-        </h3>
-        
-        <p className="text-lg md:text-xl text-white/60 font-body max-w-md text-balance mb-6 transition-colors duration-500 group-hover:text-white/80">
-          {project.description}
-        </p>
-        
-        <div className="flex items-center gap-2 group/btn">
-          <span className="font-logo text-sm md:text-base text-primary/80 uppercase tracking-widest border-b border-primary/30 pb-1 transition-all duration-300 group-hover/btn:text-primary group-hover/btn:border-primary">
-            View Dossier
-          </span>
-        </div>
-      </div>
-
-      {/* Interactive Border/Glow */}
-      <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-    </Component>
-  );
+import {ArrowUpRight} from 'lucide-react';
+import type {ImagePlaceholder} from '@/lib/placeholder-images';
+import {cn} from '@/lib/utils';
+type Props={project:ImagePlaceholder;className?:string;height?:string;onClick?:()=>void};
+export default function ProjectCard({project,className,onClick}:Props){
+  return <button type="button" onClick={onClick} disabled={!onClick} className={cn('group block w-full h-full text-left overflow-hidden bg-white rounded-2xl border border-border shadow-[0_12px_36px_rgba(17,36,58,.04)] hover:border-primary/30 hover:shadow-[0_18px_50px_rgba(17,36,58,.10)] transition-all disabled:cursor-default',className)}>
+    <div className="relative w-full aspect-[4/3] overflow-hidden bg-[#EDF1F6]">
+      <Image src={project.imageUrl} alt={project.title+' project preview'} fill unoptimized sizes="(max-width: 768px) 100vw, 50vw" className="object-cover object-center transition-transform duration-700 group-hover:scale-[1.03]"/>
+      <div className="absolute right-5 top-5 flex items-center justify-center w-10 h-10 rounded-full bg-white/95 text-primary shadow-md"><ArrowUpRight className="h-5 w-5"/></div>
+    </div>
+    <div className="p-6 md:p-7">
+      <p className="text-xs uppercase tracking-[.13em] text-theme-2 font-semibold mb-3">Selected project</p>
+      <h3 className="text-xl md:text-2xl font-semibold tracking-tight text-foreground">{project.title}</h3>
+      <p className="text-muted-foreground text-sm leading-relaxed mt-3 line-clamp-3">{project.description}</p>
+      <span className="inline-flex items-center gap-2 mt-5 text-sm font-semibold text-primary">View case study <ArrowUpRight className="h-4 w-4"/></span>
+    </div>
+  </button>;
 }

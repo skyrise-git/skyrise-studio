@@ -1,119 +1,37 @@
-"use client";
-
-import ProjectCard from './project-card';
-import type { ImagePlaceholder } from '@/lib/placeholder-images';
-import { useState, useEffect } from 'react';
-import ProjectDialog from './project-dialog';
-import { ref, get, onValue } from 'firebase/database';
-import { db } from '@/lib/firebase';
-
-export default function FeaturedWork() {
-  const [projects, setProjects] = useState<ImagePlaceholder[]>([]);
-  const [selectedProject, setSelectedProject] = useState<ImagePlaceholder | null>(null);
-  const [open, setOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [sectionContent, setSectionContent] = useState({
-    headline: 'Featured',
-    headlineHighlight: 'Solutions',
-    description: 'Delivering scalable web and mobile applications for our global partners.'
-  });
-
-  useEffect(() => {
-    // Fetch Projects with real-time listener
-    const projectsRef = ref(db, 'projects');
-    const unsubProjects = onValue(projectsRef, (snapshot) => {
-      try {
-        if (snapshot.exists()) {
-          const fetchedProjects: ImagePlaceholder[] = [];
-          snapshot.forEach((childSnapshot) => {
-            const data = childSnapshot.val();
-            // Greatly relax validation to allow Base64 and optional images
-            fetchedProjects.push({ 
-              id: childSnapshot.key, 
-              ...data,
-              // Fallback for missing images
-              imageUrl: data.imageUrl || "https://images.unsplash.com/photo-1572177662444-1f736cbd65b8?q=80&w=1000&auto=format&fit=crop"
-            } as ImagePlaceholder);
-          });
-
-          // Sort by createdAt descending (newest first)
-          fetchedProjects.sort((a, b) => {
-            const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
-            const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
-            return dateB - dateA;
-          });
-          
-          setProjects(fetchedProjects);
-        } else {
-          setProjects([]);
-        }
-      } catch (error) {
-        console.error("Error processing projects:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    }, (error) => {
-      console.error("Error fetching projects listener:", error);
-      setIsLoading(false);
-    });
-
-    // Fetch Section Content
-    const unsubContent = onValue(ref(db, 'content/projects'), (snapshot) => {
-      if (snapshot.exists()) {
-        setSectionContent(snapshot.val());
-      }
-    });
-
-    return () => {
-      unsubProjects();
-      unsubContent();
-    };
-  }, []);
-
-  const handleProjectClick = (project: ImagePlaceholder) => {
-    setSelectedProject(project);
-    setOpen(true);
-  };
-
-  if (!isLoading && projects.length === 0) {
-    return null;
-  }
-
-  return (
-    <section className="container mx-auto animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500">
-      <div className="text-center mb-16 px-4">
-        <h2 className="text-5xl md:text-7xl font-logo uppercase">
-          {sectionContent.headline} <span className="text-theme-2">{sectionContent.headlineHighlight}</span>
-        </h2>
-        <p className="text-muted-foreground font-code mt-4 max-w-2xl mx-auto">
-          {sectionContent.description}
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 px-4">
-        {projects.map((project, index) => {
-          const isWide = index % 4 === 0 || index % 4 === 3;
-          
-          return (
-            <div 
-              key={project.id || index} 
-              className={isWide ? "md:col-span-7" : "md:col-span-5"}
-            >
-              <ProjectCard 
-                project={project} 
-                height="h-[400px] md:h-[500px]" 
-                onClick={() => handleProjectClick(project)}
-              />
-            </div>
-          );
-        })}
-      </div>
-
-      <ProjectDialog 
-        project={selectedProject} 
-        open={open} 
-        onOpenChange={setOpen} 
-      />
-    </section>
-  );
+'use client';
+import {useEffect,useState} from 'react';
+import {ArrowUpRight} from 'lucide-react';
+import {onValue,ref} from 'firebase/database';
+import {db} from '@/lib/firebase';
+import type {ImagePlaceholder} from '@/lib/placeholder-images';
+import ProjectCard from '@/components/project-card';
+import ProjectDialog from '@/components/project-dialog';
+export default function FeaturedWork(){
+  const [projects,setProjects]=useState<ImagePlaceholder[]>([]);
+  const [selected,setSelected]=useState<ImagePlaceholder|null>(null);
+  const [open,setOpen]=useState(false);
+  const [loading,setLoading]=useState(true);
+  const [copy,setCopy]=useState({headline:'Selected',headlineHighlight:'work',description:'A closer look at the websites, platforms and software products we have built.'});
+  useEffect(()=>{
+    const unsubProjects=onValue(ref(db,'projects'),snapshot=>{
+      if(snapshot.exists()){
+        const next:ImagePlaceholder[]=[];
+        snapshot.forEach(child=>{const data=child.val();next.push({id:child.key,...data,imageUrl:data.imageUrl||'/projects/nexus-erp.png'} as ImagePlaceholder);});
+        next.sort((a,b)=>new Date(b.createdAt||0).getTime()-new Date(a.createdAt||0).getTime());
+        setProjects(next);
+      }else setProjects([]);
+      setLoading(false);
+    },()=>setLoading(false));
+    const unsubCopy=onValue(ref(db,'content/projects'),snapshot=>{if(snapshot.exists())setCopy(snapshot.val());});
+    return ()=>{unsubProjects();unsubCopy();};
+  },[]);
+  return <section id="projects" className="scroll-mt-24 py-24 md:py-28 bg-white">
+    <div className="container">
+      <div className="max-w-3xl mb-12"><p className="section-eyebrow mb-4">Our work, our proof</p><h2 className="section-heading">{copy.headline} <span className="text-theme-2">{copy.headlineHighlight}</span></h2><p className="section-lead mt-5">{copy.description}</p></div>
+      {loading&&<div className="grid sm:grid-cols-2 gap-7">{[1,2].map(n=><div key={n} className="aspect-[4/3] animate-pulse bg-secondary rounded-2xl"/>)}</div>}
+      {!loading&&projects.length===0&&<div className="rounded-2xl bg-[#F8FAFC] border border-border py-16 px-8 text-center"><h3 className="text-xl font-semibold">Our latest projects are being prepared.</h3><p className="text-muted-foreground mt-3 max-w-xl mx-auto">Ask us about relevant work and examples for your industry.</p><a href="/#contact" className="mt-6 inline-flex items-center font-semibold gap-2 text-primary">Discuss your idea <ArrowUpRight size={16}/></a></div>}
+      {projects.length>0&&<div className="grid sm:grid-cols-2 gap-6 lg:gap-8">{projects.map((p,i)=><ProjectCard key={p.id||i} project={p} onClick={()=>{setSelected(p);setOpen(true);}}/>)}</div>}
+      <ProjectDialog project={selected} open={open} onOpenChange={setOpen}/>
+    </div>
+  </section>;
 }
