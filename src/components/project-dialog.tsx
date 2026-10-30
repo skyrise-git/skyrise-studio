@@ -1,23 +1,45 @@
 import Image from 'next/image';
-import {CheckCircle2} from 'lucide-react';
+import {ArrowUpRight,CheckCircle2} from 'lucide-react';
 import {Dialog,DialogContent,DialogDescription,DialogHeader,DialogTitle} from '@/components/ui/dialog';
 import type {ImagePlaceholder} from '@/lib/placeholder-images';
-export default function ProjectDialog({project,open,onOpenChange}:{project:ImagePlaceholder|null;open:boolean;onOpenChange:(open:boolean)=>void}){
-  if(!project)return null;
+
+export default function ProjectDialog({project,open,onOpenChange}:{project:ImagePlaceholder|null;open:boolean;onOpenChange:(open:boolean)=>void}) {
+  if (!project) return null;
   return <Dialog open={open} onOpenChange={onOpenChange}>
-    <DialogContent className="w-[95vw] sm:max-w-4xl max-h-[90vh] overflow-y-auto bg-white border-border p-0 rounded-2xl">
-      <div className="relative h-60 md:h-80 bg-secondary"><Image src={project.imageUrl} alt={project.title+' screenshot'} fill unoptimized className="object-cover" sizes="90vw"/></div>
+    <DialogContent className="w-[95vw] max-w-[1000px] sm:max-w-[1000px] max-h-[92vh] overflow-y-auto bg-white border-border p-0 rounded-2xl">
+      <div className="bg-[#EAF0F6] p-5 md:p-8">
+        <div className="rounded-xl shadow-[0_16px_32px_rgba(21,48,79,.1)] overflow-hidden bg-white border border-[#CED9E5]">
+          <div className="h-10 flex items-center gap-2 border-b border-border bg-white px-4" aria-hidden="true">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#C5D2E0]"/>
+            <span className="w-2.5 h-2.5 rounded-full bg-[#C5D2E0]"/>
+            <span className="w-2.5 h-2.5 rounded-full bg-[#C5D2E0]"/>
+            <span className="ml-auto h-2.5 w-1/3 rounded-full bg-[#ECF2F7]"/>
+          </div>
+          <div className="flex items-center justify-center bg-white">
+            <Image
+              src={project.imageUrl}
+              alt={'Complete project screenshot for ' + project.title}
+              width={1400}
+              height={900}
+              unoptimized
+              sizes="(max-width: 1000px) 95vw, 900px"
+              className="block w-full h-auto max-h-[72vh] object-contain"
+            />
+          </div>
+        </div>
+        <p className="mt-4 text-xs text-[#607A92] text-center">Full project image, shown without cropping</p>
+      </div>
       <div className="p-7 md:p-10">
         <DialogHeader>
-          <p className="section-eyebrow mb-3">Project overview</p>
-          <DialogTitle className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground">{project.title}</DialogTitle>
-          <DialogDescription className="text-base text-muted-foreground mt-4 leading-relaxed">{project.longDescription||project.description}</DialogDescription>
+          <DialogTitle className="text-3xl md:text-4xl font-bold tracking-tight">{project.title}</DialogTitle>
+          <DialogDescription className="text-base text-muted-foreground leading-[1.7] pt-3">{project.longDescription||project.description}</DialogDescription>
         </DialogHeader>
-        <div className="grid md:grid-cols-2 gap-8 mt-8 pt-8 border-t border-border">
-          {project.technologies?.length?<div><h3 className="font-semibold text-lg mb-4">Technology</h3><div className="flex flex-wrap gap-2">{project.technologies.map(t=><span key={t} className="border border-border bg-secondary rounded-full px-3 py-2 text-xs">{t}</span>)}</div></div>:null}
-          {project.advantages?.length?<div><h3 className="font-semibold text-lg mb-4">Key advantages</h3><ul className="space-y-3">{project.advantages.map((a,i)=><li key={i} className="flex items-start gap-2 text-sm text-muted-foreground"><CheckCircle2 className="text-theme-2 h-4 w-4 mt-0.5 shrink-0"/>{a}</li>)}</ul></div>:null}
+        <div className="grid md:grid-cols-2 gap-9 pt-8 mt-8 border-t border-border">
+          {project.technologies?.length>0&&<div><h3 className="font-bold text-lg mb-4">Built with</h3><div className="flex flex-wrap gap-2">{project.technologies.map(tech=><span key={tech} className="border border-[#DAE4ED] bg-[#F3F7FB] text-[#36526D] rounded-full px-3 py-2 text-xs font-medium">{tech}</span>)}</div></div>}
+          {project.advantages?.length>0&&<div><h3 className="font-bold text-lg mb-4">What makes it valuable</h3><ul className="space-y-3">{project.advantages.map((adv,i)=><li key={i} className="flex items-start gap-2.5 text-sm leading-relaxed text-muted-foreground"><CheckCircle2 size={17} className="text-theme-2 shrink-0 mt-0.5"/>{adv}</li>)}</ul></div>}
         </div>
-        {project.features?.length?<div className="mt-8 pt-7 border-t border-border"><h3 className="font-semibold text-lg mb-4">Features delivered</h3><ul className="grid md:grid-cols-2 gap-3">{project.features.map((f,i)=><li key={i} className="rounded-xl border border-border bg-[#F8FAFC] p-4 text-sm">{f}</li>)}</ul></div>:null}
+        {project.features?.length>0&&<div className="pt-8 mt-8 border-t border-border"><h3 className="font-bold text-lg mb-4">Features delivered</h3><ul className="grid md:grid-cols-2 gap-3">{project.features.map((feature,i)=><li key={i} className="bg-[#F5F8FB] rounded-xl p-4 text-sm text-[#3E5469]">{feature}</li>)}</ul></div>}
+        <a href="/#contact" onClick={()=>onOpenChange(false)} className="inline-flex items-center gap-2 bg-primary text-white rounded-full px-6 py-3.5 mt-9 text-sm font-semibold hover:bg-[#305B83] transition-colors">Discuss a similar project <ArrowUpRight size={17}/></a>
       </div>
     </DialogContent>
   </Dialog>;
