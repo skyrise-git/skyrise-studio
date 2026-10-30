@@ -14,12 +14,12 @@ export default function HeroContentPage() {
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
   const [data, setData] = useState({
-    title: 'SKYRISE',
-    subtitle: 'We are a premier Software Dev Team providing scalable software solutions...',
-    btn1Text: 'Explore Dossiers',
+    title: 'Websites that earn trust. Digital products that move businesses forward.',
+    subtitle: 'From high-performing business websites to powerful digital platforms and bespoke applications, we design and build technology that helps you grow.',
+    btn1Text: 'Explore our work',
     btn1Url: '/#projects',
-    btn2Text: 'Initiate Contact',
-    btn2Url: '/#contact',
+    btn2Text: 'View website pricing',
+    btn2Url: '/#pricing',
   });
 
   useEffect(() => {
@@ -72,8 +72,8 @@ export default function HeroContentPage() {
           <Layout className="w-6 h-6" />
         </div>
         <div>
-          <h1 className="text-2xl font-logo uppercase">Hero Section Edit</h1>
-          <p className="text-muted-foreground font-code text-sm">Update the main landing area</p>
+          <h1 className="text-2xl font-logo uppercase">Homepage hero</h1>
+          <p className="text-muted-foreground font-code text-sm">Update the headline, description and calls to action</p>
         </div>
       </div>
 

@@ -1,162 +1,50 @@
-"use client";
-
-import { Github, Twitter, Linkedin, Send, MessageCircle } from 'lucide-react';
+'use client';
+import {useEffect,useState} from 'react';
 import Link from 'next/link';
-import { Button } from './ui/button';
-import { Input } from './ui/input';
-import { Textarea } from './ui/textarea';
-import DecryptText from './decrypt-text';
-import { useState, useEffect } from 'react';
-import { ref, push, onValue } from 'firebase/database';
-import { db } from '@/lib/firebase';
-import { getWhatsAppHref } from '@/lib/contact';
+import {Send,MessageCircle} from 'lucide-react';
+import {onValue,push,ref} from 'firebase/database';
+import {db} from '@/lib/firebase';
+import {getWhatsAppHref} from '@/lib/contact';
+import {Button} from '@/components/ui/button';
+import {Input} from '@/components/ui/input';
+import {Textarea} from '@/components/ui/textarea';
 
-export default function Footer() {
-  const whatsappHref = getWhatsAppHref();
-
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
-
-  const [content, setContent] = useState({
-    contactHeading: 'Get In Touch',
-    contactText: "Have a project in mind or just want to say hello? We'd love to hear from you. Fill out the form and we'll get back to you as soon as possible.",
-    col1Header: 'Global Delivery',
-    col1Text: 'Distributed engineering across North America, Europe, Africa & Asia — timezone-friendly collaboration.',
-    col2Header: 'Core Services',
-    col2Text: 'Custom Software • Mobile Apps • Web Design • Cloud Solutions',
-    companyName: 'SKYRISE',
-    copyright: 'SkyRise Softwares. All Rights Reserved.',
-  });
-
-  useEffect(() => {
-    const unsub = onValue(ref(db, 'content/footer'), (snapshot) => {
-      if (snapshot.exists()) {
-        setContent(snapshot.val());
-      }
-    });
-    return () => unsub();
-  }, []);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!name || !email || !message) return;
-    
-    setLoading(true);
-    setErrorMsg(null);
-
-    try {
-      await push(ref(db, 'messages'), {
-        name,
-        email,
-        message,
-        createdAt: new Date().toISOString()
-      });
-
-      // Show success
-      setSuccess(true);
-      setName('');
-      setEmail('');
-      setMessage('');
-      setTimeout(() => setSuccess(false), 5000);
-    } catch (error: any) {
-      console.error('Error sending message:', error);
-      setErrorMsg(error.message || 'Failed to send message. Check Database Rules.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <footer id="contact" className="scroll-mt-28 w-full pt-24 pb-8 border-t border-white/5">
-      <div className="container mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 mb-16">
-          <div>
-            <h2 className="text-5xl md:text-7xl mb-4 font-logo"><DecryptText text={content.contactHeading} /></h2>
-            <p className="text-muted-foreground font-body max-w-md">
-              {content.contactText}
-            </p>
-          </div>
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            <Input 
-              type="text" 
-              placeholder="Name" 
-              required
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="bg-secondary/10 border-white/10" 
-            />
-            <Input 
-              type="email" 
-              placeholder="Email" 
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="bg-secondary/10 border-white/10" 
-            />
-            <Textarea 
-              placeholder="Your Message" 
-              required
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              className="bg-secondary/10 border-white/10 min-h-[120px]" 
-            />
-            {errorMsg && (
-              <div className="text-red-500 text-sm mt-2">{errorMsg}</div>
-            )}
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Button type="submit" disabled={loading} className="w-full font-code uppercase tracking-wider flex-1">
-                {loading ? 'Sending...' : success ? 'Message Sent!' : (
-                  <>Send Message <Send className="ml-2" /></>
-                )}
-              </Button>
-              {whatsappHref && (
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="w-full sm:w-auto font-code uppercase tracking-wider border-emerald-500/35 text-emerald-400 hover:bg-emerald-500/10 hover:text-emerald-300"
-                  asChild
-                >
-                  <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
-                    <MessageCircle className="mr-2 h-4 w-4" />
-                    WhatsApp
-                  </a>
-                </Button>
-              )}
-            </div>
-          </form>
-        </div>
-        
-        <div className="mb-12 border-t border-white/5 pt-8 text-center md:text-left">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm text-muted-foreground/60 font-code uppercase tracking-wider">
-              <div>
-                <span className="text-primary/60 block mb-2">{content.col1Header}</span>
-                {content.col1Text}
-              </div>
-              <div className="md:text-right">
-                 <span className="text-primary/60 block mb-2">{content.col2Header}</span>
-                 {content.col2Text}
-              </div>
-            </div>
-        </div>
-
-        <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
-          <div className="font-logo text-lg tracking-widest text-primary">
-            {content.companyName}
-          </div>
-          <p className="text-sm text-muted-foreground font-code">
-            &copy; {new Date().getFullYear()} {content.copyright}
-          </p>
-          <div className="flex gap-4">
-            <Link href="#" aria-label="Github" className="text-muted-foreground hover:text-primary transition-colors"><Github size={20} /></Link>
-            <Link href="#" aria-label="Twitter" className="text-muted-foreground hover:text-primary transition-colors"><Twitter size={20} /></Link>
-            <Link href="#" aria-label="LinkedIn" className="text-muted-foreground hover:text-primary transition-colors"><Linkedin size={20} /></Link>
-          </div>
-        </div>
-      </div>
-    </footer>
-  );
+export default function Footer(){
+ const whatsappHref=getWhatsAppHref();
+ const [name,setName]=useState(''),[email,setEmail]=useState(''),[message,setMessage]=useState('');
+ const [sending,setSending]=useState(false),[sent,setSent]=useState(false),[error,setError]=useState<string|null>(null);
+ const [content,setContent]=useState({contactHeading:"Let's build something great.",contactText:"Tell us what you're trying to achieve. We'll help you find the right next step.",col1Header:'Global Delivery',col1Text:'Supporting businesses across North America, Europe and Africa.',col2Header:'Our Focus',col2Text:'Websites, e-commerce, platforms and custom software.',companyName:'SKYRISE',copyright:'SkyRise Softwares. All Rights Reserved.'});
+ useEffect(()=>onValue(ref(db,'content/footer'),snapshot=>{if(snapshot.exists())setContent(snapshot.val());}),[]);
+ async function submit(e:React.FormEvent){
+   e.preventDefault();if(!name.trim()||!email.trim()||!message.trim())return;
+   setSending(true);setError(null);setSent(false);
+   try{await push(ref(db,'messages'),{name:name.trim(),email:email.trim(),message:message.trim(),createdAt:new Date().toISOString()});setSent(true);setName('');setEmail('');setMessage('');}
+   catch(e){setError(e instanceof Error?e.message:'Unable to send your message. Please try again.');}
+   finally{setSending(false);}
+ }
+ return <footer id="contact" className="scroll-mt-24 bg-[#F8FAFC] border-t border-border pt-24 pb-8">
+   <div className="container">
+     <div className="grid lg:grid-cols-[1fr_.9fr] gap-12 lg:gap-24 pb-20">
+       <div><p className="section-eyebrow mb-5">Start a conversation</p><h2 className="section-heading max-w-xl">{content.contactHeading}</h2><p className="section-lead mt-5 max-w-xl">{content.contactText}</p><p className="text-sm text-muted-foreground mt-8">From a new website to a complex platform, we would love to hear about your plans.</p></div>
+       <form onSubmit={submit} className="surface-card p-7 md:p-8 space-y-5">
+         <div><label htmlFor="contact-name" className="block text-sm font-medium mb-2">Your name</label><Input id="contact-name" autoComplete="name" required value={name} onChange={e=>setName(e.target.value)} placeholder="Your name" className="h-12 bg-white"/></div>
+         <div><label htmlFor="contact-email" className="block text-sm font-medium mb-2">Email address</label><Input id="contact-email" type="email" autoComplete="email" required value={email} onChange={e=>setEmail(e.target.value)} placeholder="you@company.com" className="h-12 bg-white"/></div>
+         <div><label htmlFor="contact-message" className="block text-sm font-medium mb-2">What can we help you build?</label><Textarea id="contact-message" required value={message} onChange={e=>setMessage(e.target.value)} className="min-h-[135px] bg-white" placeholder="Tell us about your business and goals..."/></div>
+         {error&&<p role="alert" className="text-sm text-destructive">{error}</p>}
+         {sent&&<p role="status" className="text-sm text-green-700">Thanks — your message was sent.</p>}
+         <div className="flex flex-col sm:flex-row gap-3"><Button type="submit" className="h-12 rounded-full flex-1" disabled={sending}>{sending?'Sending...':'Send enquiry'} <Send size={16} className="ml-2"/></Button>
+           {whatsappHref&&<Button asChild variant="outline" className="h-12 rounded-full bg-white"><a href={whatsappHref} target="_blank" rel="noopener noreferrer"><MessageCircle className="mr-2 h-4 w-4"/>WhatsApp</a></Button>}
+         </div>
+       </form>
+     </div>
+     <div className="grid md:grid-cols-3 gap-8 py-10 border-t border-border">
+       <div><Link href="/" className="font-extrabold text-2xl tracking-[-.07em]">SKYRISE<span className="text-theme-2">.</span></Link><p className="text-sm text-muted-foreground mt-3">Well-built digital experiences for ambitious businesses.</p></div>
+       <div><p className="font-semibold text-sm mb-3">{content.col1Header}</p><p className="text-muted-foreground text-sm leading-relaxed">{content.col1Text}</p></div>
+       <div><p className="font-semibold text-sm mb-3">{content.col2Header}</p><p className="text-muted-foreground text-sm leading-relaxed">{content.col2Text}</p></div>
+     </div>
+     <div className="border-t border-border pt-7 flex flex-col md:flex-row md:justify-between gap-4 text-xs text-muted-foreground"><p>© {new Date().getFullYear()} {content.copyright}</p>
+       <nav className="flex flex-wrap gap-6"><Link href="/#projects" className="hover:text-primary">Our Work</Link><Link href="/#pricing" className="hover:text-primary">Pricing</Link><Link href="/how-it-works" className="hover:text-primary">How It Works</Link><Link href="/login" className="hover:text-primary">Admin</Link></nav>
+     </div>
+   </div>
+ </footer>;
 }

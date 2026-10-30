@@ -1,94 +1,31 @@
-"use client";
-
-import React, { useState, useEffect } from 'react';
+'use client';
+import { useState } from 'react';
 import Link from 'next/link';
+import { ArrowUpRight, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Menu } from 'lucide-react';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import DecryptText from './decrypt-text';
-import { cn } from '@/lib/utils';
 
-/** Root-absolute paths so anchors work from nested routes (e.g. /zw), not /zw#section */
-const NAV_LINKS = [
-  { href: '/#projects', label: 'Projects' },
-  { href: '/#skills', label: 'Skills' },
-  { href: '/#global', label: 'Global' },
-  { href: '/how-it-works', label: 'How It Works' },
-] as const;
-
-export default function Header() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const NavLink = ({ href, label }: { href: string; label: string }) => (
-    <Link
-      href={href}
-      onClick={() => setOpen(false)}
-      className="font-code text-sm uppercase tracking-wider text-muted-foreground transition-colors hover:text-primary-foreground"
-    >
-      <DecryptText text={label} />
-    </Link>
-  );
-
-  return (
-    <header
-      className={cn(
-        'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-        isScrolled ? 'bg-background/80 backdrop-blur-sm border-b border-white/5' : 'bg-gradient-to-b from-background/80 to-transparent',
-        'p-4 sm:p-6'
-      )}
-    >
-      <div className="container mx-auto flex items-center justify-between">
-        <Link href="/" className="group inline-block focus:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm">
-          <h1 className="text-2xl font-bold font-logo tracking-widest text-primary transition-colors group-hover:text-theme-4">
-            SKYRISE
-          </h1>
-        </Link>
-        
-        <nav className="hidden lg:flex items-center gap-6 xl:gap-8">
-          {NAV_LINKS.map(link => <NavLink key={link.href} {...link} />)}
-        </nav>
-
-        <div className="hidden lg:flex">
-          <Button asChild variant="outline" className="font-code uppercase tracking-wider">
-            <Link href="/#contact">Contact</Link>
-          </Button>
-        </div>
-
-        <div className="lg:hidden">
-          <Sheet open={open} onOpenChange={setOpen}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Menu className="h-6 w-6" />
-                <span className="sr-only">Open menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="right" className="bg-background/90 backdrop-blur-lg border-l-white/10 w-[250px] sm:w-[300px]">
-              <div className="flex flex-col h-full p-6 pt-16">
-                 <Link href="/" onClick={() => setOpen(false)} className="group mb-12 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm">
-                    <h1 className="text-3xl font-bold font-logo tracking-widest text-primary">
-                        SKYRISE
-                    </h1>
-                </Link>
-                <nav className="flex flex-col items-start gap-8 mb-12">
-                   {NAV_LINKS.map(link => <NavLink key={link.href} {...link} />)}
-                </nav>
-                <Button asChild variant="outline" className="font-code uppercase tracking-wider mt-auto">
-                    <Link href="/#contact" onClick={() => setOpen(false)}>Contact</Link>
-                </Button>
-              </div>
-            </SheetContent>
-          </Sheet>
-        </div>
-      </div>
-    </header>
-  );
+const links = [
+  {label:'Our Work',href:'/#projects'}, {label:'Services',href:'/#services'},
+  {label:'Pricing',href:'/#pricing'}, {label:'How It Works',href:'/how-it-works'},
+];
+export default function Header(){
+  const [open,setOpen]=useState(false);
+  return <header className="sticky top-0 z-50 w-full border-b border-border/80 bg-white/95 backdrop-blur-xl">
+    <div className="container mx-auto flex h-20 items-center justify-between gap-6">
+      <Link href="/" aria-label="Skyrise homepage" onClick={()=>setOpen(false)} className="text-2xl tracking-[-.07em] font-extrabold text-foreground">
+        SKYRISE<span className="text-theme-2">.</span>
+      </Link>
+      <nav className="hidden lg:flex items-center gap-8" aria-label="Main navigation">
+        {links.map(l=><Link key={l.href} href={l.href} className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">{l.label}</Link>)}
+      </nav>
+      <Button asChild className="hidden lg:inline-flex rounded-full px-6 h-11"><Link href="/#contact">Start a Project <ArrowUpRight className="ml-2 h-4 w-4"/></Link></Button>
+      <button type="button" className="lg:hidden rounded-lg p-2 border border-border" onClick={()=>setOpen(!open)} aria-label={open?'Close navigation':'Open navigation'} aria-expanded={open}>
+        {open?<X className="h-6 w-6"/>:<Menu className="h-6 w-6"/>}
+      </button>
+    </div>
+    {open&&<nav className="lg:hidden border-t border-border p-6 bg-white flex flex-col gap-5" aria-label="Mobile navigation">
+      {links.map(l=><Link key={l.href} href={l.href} onClick={()=>setOpen(false)} className="text-base font-medium">{l.label}</Link>)}
+      <Link href="/#contact" onClick={()=>setOpen(false)} className="rounded-lg bg-primary text-primary-foreground py-3 px-5 text-center font-medium">Start a Project</Link>
+    </nav>}
+  </header>;
 }
