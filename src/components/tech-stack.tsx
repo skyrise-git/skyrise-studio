@@ -1,6 +1,7 @@
 'use client';
 import {useEffect,useState} from 'react';
 import {ArrowUpRight,MoveRight} from 'lucide-react';
+import Image from 'next/image';
 import {onValue,ref} from 'firebase/database';
 import {db} from '@/lib/firebase';
 
@@ -28,6 +29,21 @@ export default function TechStack() {
           <a href="/#contact" className="inline-flex items-center gap-2 bg-primary text-white rounded-full px-6 py-3.5 mt-8 font-semibold text-sm hover:bg-[#305B83] transition-colors">
             Discuss your requirements <ArrowUpRight size={17}/>
           </a>
+          <figure className="mt-9 overflow-hidden rounded-2xl max-w-[490px]">
+            <div className="relative aspect-[16/8]">
+              <Image
+                src="https://images.unsplash.com/photo-1550622824-928e5f246f81?auto=format&fit=crop&w=950&q=82"
+                alt="Close-up of hands working on a laptop at a clean design workspace"
+                fill
+                sizes="(max-width: 1024px) 100vw, 40vw"
+                className="object-cover object-center"
+                loading="lazy"
+              />
+            </div>
+            <figcaption className="text-xs leading-relaxed text-[#61758A] mt-3">
+              Crafting practical software, from design through development.
+            </figcaption>
+          </figure>
         </div>
         <div className="divide-y divide-[#D6E0EA] border-t border-b border-[#D6E0EA]">
           {capabilities.map(item=><article key={item.num} className="group py-9 md:py-11">

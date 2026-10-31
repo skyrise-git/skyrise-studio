@@ -10,6 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { PlusSquare, SendHorizontal, Upload, ImageIcon, Loader2, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { normalizeProjectWebsiteUrl } from '@/lib/project-showcase';
 
 export default function AddProjectPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -25,6 +26,7 @@ export default function AddProjectPage() {
     features: '',
     imageUrl: '',
     imageHint: '',
+    websiteUrl: '',
   });
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -122,6 +124,19 @@ export default function AddProjectPage() {
         return;
       }
 
+      const liveWebsiteUrl = projectForm.websiteUrl.trim()
+        ? normalizeProjectWebsiteUrl(projectForm.websiteUrl)
+        : null;
+      if (projectForm.websiteUrl.trim() && !liveWebsiteUrl) {
+        toast({
+          title: "Invalid website URL",
+          description: "Enter a public website address starting with https:// or www.",
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
       const techArray = projectForm.technologies.split(',').map(t => t.trim()).filter(Boolean);
       const advArray = projectForm.advantages.split(',').map(a => a.trim()).filter(Boolean);
       const featArray = projectForm.features.split(',').map(f => f.trim()).filter(Boolean);
@@ -137,6 +152,7 @@ export default function AddProjectPage() {
         features: featArray,
         imageUrl: projectForm.imageUrl,
         imageHint: projectForm.imageHint,
+        websiteUrl: liveWebsiteUrl || '',
         createdAt: new Date().toISOString(),
       };
 
@@ -158,6 +174,7 @@ export default function AddProjectPage() {
         features: '',
         imageUrl: '',
         imageHint: '',
+        websiteUrl: '',
       });
     } catch (err: any) {
       console.error("CRITICAL Error adding project:", err);
@@ -214,6 +231,20 @@ export default function AddProjectPage() {
               />
             </div>
             
+            <div className="space-y-3 lg:col-span-2">
+              <label htmlFor="project-live-website" className="text-sm font-code tracking-wide text-white uppercase ml-1">Live Website URL (Optional)</label>
+              <Input
+                id="project-live-website"
+                type="text"
+                inputMode="url"
+                placeholder="https://www.example.com"
+                value={projectForm.websiteUrl}
+                onChange={e => handleInputChange('websiteUrl', e.target.value)}
+                className="bg-background/80 border-white/10 h-12 rounded-xl focus-visible:ring-primary/50 text-white"
+              />
+              <p className="text-xs text-muted-foreground ml-1">When provided, “Explore project” links directly to the live website. Leave blank to show the case study instead.</p>
+            </div>
+
             <div className="space-y-3 lg:col-span-2">
               <label className="text-sm font-code tracking-wide text-white uppercase ml-1">Long Description (Optional)</label>
               <Textarea 
