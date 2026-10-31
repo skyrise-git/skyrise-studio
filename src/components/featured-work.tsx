@@ -16,11 +16,10 @@ const LEASIO: ShowcaseProject = {
   technologies: [],
   advantages: ['Unified property operations', 'Tenant and owner experiences', 'Maintenance workflows'],
   features: ['Property and lease management', 'Rent and payments', 'Maintenance tracking', 'Tenant portal'],
-  imageUrl: '/projects/leasio-preview.svg',
-  imageHint: 'Illustrative website preview',
+  imageUrl: 'https://s.wordpress.com/mshots/v1/https%3A%2F%2Fwww.leasio.co.za%2F?w=1440&h=900',
+  imageHint: 'Leasio live homepage screenshot',
   websiteUrl: 'https://www.leasio.co.za/',
   previewDevice: 'laptop',
-  previewNote: 'Illustrative interface',
   createdAt: '2026-10-30T12:00:00Z',
 };
 
@@ -39,7 +38,11 @@ function enrich(project: ShowcaseProject): ShowcaseProject {
 function withLeasio(projects: ShowcaseProject[]) {
   const present = projects.some(isLeasio);
   const combined = present ? projects : [LEASIO, ...projects];
-  return combined.map(enrich);
+  return combined.map(project => isLeasio(project)
+    ? enrich({ ...project, imageUrl: LEASIO.imageUrl, imageHint: LEASIO.imageHint,
+        previewDevice: 'laptop', previewNote: undefined,
+        websiteUrl: LEASIO.websiteUrl })
+    : enrich(project));
 }
 
 export default function FeaturedWork() {
