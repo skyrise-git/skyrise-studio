@@ -180,8 +180,8 @@ export default function FeaturedWork() {
         <div ref={firstSet} className="flex items-stretch gap-5 pl-5 shrink-0">
           {projects.map((project,index)=><ProjectCard key={project.id||index} project={project} onClick={()=>{setPaused(true);setSelected(project);setOpen(true);}}/>)}
         </div>
-        <div className="flex items-stretch gap-5 pl-6 pr-5 shrink-0" aria-hidden="true" inert={true}>
-          {projects.map((project,index)=><ProjectCard key={'clone-'+(project.id||index)} project={project}/>)}
+        <div className="flex items-stretch gap-5 pl-6 pr-5 shrink-0" aria-label="More project previews">
+          {projects.map((project,index)=><ProjectCard key={'clone-'+(project.id||index)} project={project} onClick={()=>{setPaused(true);setSelected(project);setOpen(true);}}/>)}
         </div>
       </div>
     </div>}

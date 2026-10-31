@@ -2,9 +2,11 @@ import Image from 'next/image';
 import {ArrowUpRight,CheckCircle2} from 'lucide-react';
 import {Dialog,DialogContent,DialogDescription,DialogHeader,DialogTitle} from '@/components/ui/dialog';
 import type {ShowcaseProject} from '@/lib/project-showcase';
+import {getProjectWebsiteUrl} from '@/lib/project-showcase';
 
 export default function ProjectDialog({project,open,onOpenChange}:{project:ShowcaseProject|null;open:boolean;onOpenChange:(open:boolean)=>void}) {
   if (!project) return null;
+  const liveUrl = getProjectWebsiteUrl(project);
   return <Dialog open={open} onOpenChange={onOpenChange}>
     <DialogContent className="w-[95vw] max-w-[1000px] sm:max-w-[1000px] max-h-[92vh] overflow-y-auto bg-white border-border p-0 rounded-2xl">
       <div className="bg-[#EAF0F6] p-5 md:p-8">
@@ -41,7 +43,7 @@ export default function ProjectDialog({project,open,onOpenChange}:{project:Showc
         {project.features?.length>0&&<div className="pt-8 mt-8 border-t border-border"><h3 className="font-bold text-lg mb-4">Features delivered</h3><ul className="grid md:grid-cols-2 gap-3">{project.features.map((feature,i)=><li key={i} className="bg-[#F5F8FB] rounded-xl p-4 text-sm text-[#3E5469]">{feature}</li>)}</ul></div>}
         <div className="mt-9 flex flex-wrap gap-3 items-center">
           <a href="/#contact" onClick={()=>onOpenChange(false)} className="inline-flex items-center gap-2 bg-primary text-white rounded-full px-6 py-3.5 text-sm font-semibold hover:bg-[#305B83] transition-colors">Discuss a similar project <ArrowUpRight size={17}/></a>
-          {project.websiteUrl?.startsWith('https://') && <a href={project.websiteUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-border text-primary text-sm font-semibold hover:bg-[#F3F7FB] transition-colors">Visit live website <ArrowUpRight size={17}/></a>}
+          {liveUrl && <a href={liveUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full border border-border text-primary text-sm font-semibold hover:bg-[#F3F7FB] transition-colors">Visit live website <ArrowUpRight size={17}/></a>}
         </div>
       </div>
     </DialogContent>
