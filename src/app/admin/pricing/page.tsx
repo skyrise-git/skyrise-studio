@@ -69,7 +69,7 @@ function RegionEditor({country,setDirty}:{country:CountryCode;setDirty:(dirty:bo
        {draft.map((plan,index)=><section key={country+'-'+index} className="surface-card p-6 md:p-8 space-y-5">
          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
            <div><p className="text-xs text-muted-foreground font-semibold uppercase tracking-wider">Package {index+1}</p><h2 className="text-xl font-semibold mt-2">{plan.title||'Package '+(index+1)}</h2></div>
-           <Link target="_blank" rel="noopener noreferrer" href={'/'+country} className="text-sm font-semibold text-primary inline-flex items-center gap-2">View public pricing <ArrowUpRight size={16}/></Link>
+           <Link target="_blank" rel="noopener noreferrer" href={country==='us'?'/us':'/africa?country='+country} className="text-sm font-semibold text-primary inline-flex items-center gap-2">View public pricing <ArrowUpRight size={16}/></Link>
          </div>
          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
            <div className="space-y-2"><Label htmlFor={'name-'+country+'-'+index}>Package name</Label><Input id={'name-'+country+'-'+index} value={plan.title} onChange={e=>edit(index,'title',e.target.value)} required/></div>
@@ -104,7 +104,7 @@ export default function AdminPricingPage(){
  return <div className="space-y-8">
    <div><p className="section-eyebrow mb-3">Content management</p>
      <h1 className="text-3xl font-semibold tracking-tight">Website & platform pricing</h1>
-     <p className="mt-3 text-sm text-muted-foreground max-w-2xl">Edit package rates, setup fees, ownership options and features by region. Saved prices appear on the homepage and regional pricing pages.</p>
+     <p className="mt-3 text-sm text-muted-foreground max-w-2xl">Edit package rates, setup fees, ownership options and features by region. International rates appear on the homepage; South African and Zimbabwe rates power the Africa pricing page.</p>
    </div>
    <div role="group" aria-label="Pricing region" className="flex flex-wrap gap-2">{countries.map(c=><button type="button" key={c.code} onClick={()=>selectRegion(c.code)} className={'px-5 py-2.5 rounded-full border text-sm font-medium '+(country===c.code?'bg-primary border-primary text-white':'bg-white border-border hover:bg-secondary')} aria-pressed={country===c.code}>{c.name}</button>)}</div>
    <RegionEditor key={country} country={country} setDirty={setDirty}/>
