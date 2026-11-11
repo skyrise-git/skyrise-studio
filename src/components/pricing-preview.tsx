@@ -2,12 +2,10 @@
 import Link from 'next/link';
 import {ArrowRight,ArrowUpRight,Check} from 'lucide-react';
 import {Button} from '@/components/ui/button';
-import {useState} from 'react';
-import {type CountryCode,WAAS_REGIONS} from '@/data/waas-pricing';
+import {type CountryCode} from '@/data/waas-pricing';
 import {useWaasPricing} from '@/hooks/use-waas-pricing';
-const regions:{code:CountryCode;title:string}[]=[{code:'us',title:'United States'},{code:'za',title:'South Africa'},{code:'zw',title:'Zimbabwe'}];
 export default function PricingPreview(){
-  const [country,setCountry]=useState<CountryCode>('us');
+  const country:CountryCode='us';
   const {packages}=useWaasPricing(country);
   return <section id="pricing" className="scroll-mt-24 py-24 md:py-28">
     <div className="container">
@@ -16,11 +14,7 @@ export default function PricingPreview(){
           <h2 className="section-heading">Clear pricing for your next digital presence.</h2>
           <p className="section-lead mt-5">Professional websites and business platforms at competitive, transparent rates. Choose a monthly subscription or outright ownership where available.</p>
         </div>
-        <div><label htmlFor="pricing-region" className="block text-sm font-medium mb-2">See pricing for</label>
-          <select id="pricing-region" value={country} onChange={e=>setCountry(e.target.value as CountryCode)} className="border border-border rounded-xl bg-white px-4 py-3 min-w-[220px] text-sm focus:outline-none focus:ring-2 focus:ring-ring">
-            {regions.map(r=><option value={r.code} key={r.code}>{r.title}</option>)}
-          </select>
-        </div>
+        <p className="text-sm text-muted-foreground lg:text-right lg:max-w-[235px]">Standard international packages · USD</p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
         {packages.map((plan,i)=><article key={country+'-'+i} className={'surface-card flex flex-col p-7 transition-all hover:shadow-lg '+(plan.popular?'ring-2 ring-primary':'')}>
@@ -33,11 +27,18 @@ export default function PricingPreview(){
           <Button asChild variant={plan.popular?'default':'outline'} className="w-full mt-8 rounded-full"><Link href={'/'+country}>View package details <ArrowUpRight size={16} className="ml-2"/></Link></Button>
         </article>)}
       </div>
+      <div className="mt-7 p-6 md:p-8 rounded-2xl bg-[#F8FAFC] border border-border flex flex-col md:flex-row gap-6 md:items-center md:justify-between">
+        <div>
+          <p className="text-xl font-semibold">Operating in Africa?</p>
+          <p className="text-sm text-muted-foreground mt-2 max-w-2xl">Explore website and platform packages for businesses across Africa. Select your country to see the applicable regional rates and services.</p>
+        </div>
+        <Button asChild className="rounded-full shrink-0"><Link href="/africa">Explore Africa packages <ArrowUpRight className="h-4 w-4 ml-2"/></Link></Button>
+      </div>
       <div className="mt-6 p-6 md:p-8 rounded-2xl bg-[#F3F6FA] border border-border flex flex-col md:flex-row gap-6 md:items-center md:justify-between">
         <div><p className="text-xl font-semibold">Need something more tailored?</p><p className="text-sm text-muted-foreground mt-2">Custom applications, integrations and complex platforms are scoped to your requirements, not sold as a fixed package.</p></div>
         <Button asChild variant="outline" className="rounded-full bg-white shrink-0"><Link href="/#contact">Discuss custom development <ArrowRight className="h-4 w-4 ml-2"/></Link></Button>
       </div>
-      <p className="text-xs text-muted-foreground mt-5">Displayed rates are for {WAAS_REGIONS[country].name}. Package setup fees and ownership terms are shown on the full pricing page.</p>
+      <p className="text-xs text-muted-foreground mt-5">Prices shown are our standard international rates in USD. Local integrations and requirements may vary. Setup fees and ownership terms are shown in each package.</p>
     </div>
   </section>;
 }
